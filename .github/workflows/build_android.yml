@@ -1,4 +1,4 @@
-name: Build Web Deploy Itchio 🎮
+name: Build 🎮
 
 on:
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          targetPlatform: android
+          targetPlatform: Android
           androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
           androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
