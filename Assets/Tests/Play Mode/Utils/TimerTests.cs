@@ -75,9 +75,12 @@ public class TimerTests
         Assert.That(timer.RemainingTime, Is.LessThanOrEqualTo(0));
 
         //Verifica que depois do primeiro frame iniciou automaticamente
-        yield return new WaitForEndOfFrame();
+        yield return null;
+        //yield return new WaitForEndOfFrame(); //Esse método não funciona no batch!
+
         Assert.That(state, Is.EqualTo(TimerState.Started));
-        Assert.That(timer.RemainingTime, Is.GreaterThanOrEqualTo(timer.DefaultDuration));
+        //Não dá pra saber quanto tempo passou no frame, então considerar > 0
+        Assert.That(timer.RemainingTime, Is.GreaterThan(0));
     }
 
     [Test]
