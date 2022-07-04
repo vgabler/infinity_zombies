@@ -63,6 +63,42 @@ public class TimerTests
     }
 
     [UnityTest]
+    public IEnumerator Should_run_with_unscaled_time()
+    {
+        //Mantém referência do timer atual
+        var scaledTimer = timer;
+        //Cria outro timer
+        Setup();
+
+        //Novo timer usa unscaled
+        timer.UseUnscaledTime = true;
+        Assert.That(state, Is.EqualTo(TimerState.Idle));
+
+        //Congela o tempo 
+        var timeScale = Time.timeScale;
+        Time.timeScale = 0;
+
+        //Ao ativar verifica que iniciou os dois
+        timer.Activate();
+        scaledTimer.Activate();
+        Assert.That(state, Is.EqualTo(TimerState.Started));
+        Assert.That(scaledTimer.IsRunning, Is.EqualTo(true));
+
+        //Espera por realtime
+        yield return new WaitForSecondsRealtime(timer.DefaultDuration);
+
+        //Verifica que o timer normal não se moveu
+        Assert.That(scaledTimer.IsRunning, Is.EqualTo(true));
+        Assert.That(scaledTimer.RemainingTime, Is.GreaterThanOrEqualTo(timer.DefaultDuration));
+
+        //Enquanto o timer unscaled terminou
+        Assert.That(state, Is.EqualTo(TimerState.Ended));
+
+        //Restaura o timescale
+        Time.timeScale = timeScale;
+    }
+
+    [UnityTest]
     public IEnumerator Should_start_automatically_with_default_duration()
     {
         //Precisa chamar o setup aqui, porque roda um frame antes de iniciar o teste / depois do setup
