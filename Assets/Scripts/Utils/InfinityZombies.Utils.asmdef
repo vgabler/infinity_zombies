@@ -1,0 +1,16 @@
+{
+    "name": "InfinityZombies",
+    "rootNamespace": "",
+    "references": [
+        "GUID:69fe5c0d65cfcc04d8160cfa7899b5d3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

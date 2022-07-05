@@ -47,6 +47,12 @@ public class TimerTests
         started = ended = false;
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        Time.timeScale = 1;
+    }
+
     [UnityTest]
     public IEnumerator Should_run_until_the_end()
     {
@@ -75,7 +81,6 @@ public class TimerTests
         Assert.That(state, Is.EqualTo(TimerState.Idle));
 
         //Congela o tempo 
-        var timeScale = Time.timeScale;
         Time.timeScale = 0;
 
         //Ao ativar verifica que iniciou os dois
@@ -85,7 +90,7 @@ public class TimerTests
         Assert.That(scaledTimer.IsRunning, Is.EqualTo(true));
 
         //Espera por realtime
-        yield return new WaitForSecondsRealtime(timer.DefaultDuration);
+        yield return new WaitForSecondsRealtime(timer.DefaultDuration * 1.1f);
 
         //Verifica que o timer normal não se moveu
         Assert.That(scaledTimer.IsRunning, Is.EqualTo(true));
@@ -94,8 +99,6 @@ public class TimerTests
         //Enquanto o timer unscaled terminou
         Assert.That(state, Is.EqualTo(TimerState.Ended));
 
-        //Restaura o timescale
-        Time.timeScale = timeScale;
     }
 
     [UnityTest]
