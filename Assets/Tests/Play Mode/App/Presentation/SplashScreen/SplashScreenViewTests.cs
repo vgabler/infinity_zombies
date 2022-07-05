@@ -1,6 +1,6 @@
 using Auth.Domain.Controllers;
 using Auth.Domain.Entities;
-using InfinityZombies.SplashScreen;
+using InfinityZombies.Presentation.SplashScreen;
 using Moq;
 using NUnit.Framework;
 using System;

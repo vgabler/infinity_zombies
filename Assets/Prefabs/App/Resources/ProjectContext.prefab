@@ -140,5 +140,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93373505efbe3d04fbec8c23debff192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testUserNickname: Tuts
-  testSplashDelay: 0
+  testUserNickname: 
+  testSplashDelay: 1000

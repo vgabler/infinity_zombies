@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using Zenject;
 using Auth.Domain.Controllers;
 
-namespace InfinityZombies.SplashScreen
+namespace InfinityZombies.Presentation.SplashScreen
 {
     public class SplashScreenView : MonoBehaviour
     {
