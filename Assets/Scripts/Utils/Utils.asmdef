@@ -1,5 +1,5 @@
 {
-    "name": "InfinityZombies.Utils",
+    "name": "Utils",
     "rootNamespace": "",
     "references": [
         "GUID:69fe5c0d65cfcc04d8160cfa7899b5d3"

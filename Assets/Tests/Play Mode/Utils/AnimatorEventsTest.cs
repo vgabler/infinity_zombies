@@ -1,10 +1,12 @@
 using NUnit.Framework;
+using UniRx;
 using UnityEngine;
 using Utils;
 
 public class AnimatorEventsTest
 {
     AnimatorEvents component;
+    ReactiveProperty<bool> prop;
 
     [SetUp]
     public void Setup()

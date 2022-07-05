@@ -10,14 +10,14 @@ using UnityEngine.TestTools;
 
 public class GetCurrentUserTest
 {
-    GetCurrentUser usecase;
+    GetCurrentUserImpl usecase;
     Mock<IAuthRepository> mockRepository;
 
     [SetUp]
     public void SetUp()
     {
         mockRepository = new Mock<IAuthRepository>();
-        usecase = new GetCurrentUser(mockRepository.Object);
+        usecase = new GetCurrentUserImpl(mockRepository.Object);
     }
 
     [Test]

@@ -12,10 +12,10 @@ namespace Auth.Domain.UseCases
     {
         public Task<UserInfo> Invoke();
     }
-    public class GetCurrentUser : IGetCurrentUser
+    public class GetCurrentUserImpl : IGetCurrentUser
     {
-        IAuthRepository repository;
-        public GetCurrentUser(IAuthRepository repository)
+        readonly IAuthRepository repository;
+        public GetCurrentUserImpl(IAuthRepository repository)
         {
             this.repository = repository;
         }
