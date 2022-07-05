@@ -1,5 +1,5 @@
 using System.Collections;
-using InfinityZombies.Utils;
+using Utils;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -48,6 +48,7 @@ public class TimerTests
     [TearDown]
     public void TearDown()
     {
+        Object.Destroy(timer.gameObject);
         Time.timeScale = 1;
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace InfinityZombies.Utils
+namespace Utils
 {
     public class Timer : MonoBehaviour
     {
