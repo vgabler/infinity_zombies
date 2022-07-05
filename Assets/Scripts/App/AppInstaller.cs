@@ -19,7 +19,7 @@ namespace App
             Container.Bind<EventSystem>().FromComponentInChildren().AsSingle();
 
             //TODO criar um installer dentro do módulo Auth?
-            Container.Bind<IAuthController>().To<AuthControllerImpl>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<AuthControllerImpl>().AsSingle().NonLazy();
             Container.Bind<IGetCurrentUser>().To<GetCurrentUserImpl>().AsSingle();
 
             Container.Bind<IAuthRepository>().FromInstance(

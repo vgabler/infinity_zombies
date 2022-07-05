@@ -32,6 +32,7 @@ public class AuthControllerTests
         });
 
         controller = new AuthControllerImpl(mockUsecase.Object);
+        controller.Initialize();
 
         Assert.That(controller.Initialized.Value, Is.EqualTo(false));
         Assert.IsNull(controller.CurrentUser.Value);
@@ -52,6 +53,7 @@ public class AuthControllerTests
         });
 
         controller = new AuthControllerImpl(mockUsecase.Object);
+        controller.Initialize();
 
         Assert.That(controller.Initialized.Value, Is.EqualTo(false));
         Assert.IsNull(controller.CurrentUser.Value);
@@ -68,6 +70,7 @@ public class AuthControllerTests
         mockUsecase.Setup((c) => c.Invoke()).ReturnsAsync(() => null);
 
         controller = new AuthControllerImpl(mockUsecase.Object);
+        controller.Initialize();
 
         Assert.That(controller.Initialized.Value, Is.EqualTo(true));
         Assert.IsNull(controller.CurrentUser.Value);
