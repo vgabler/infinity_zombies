@@ -1,13 +1,10 @@
-using Auth.Controllers;
-using Auth.Domain.UseCases;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Utils;
 using UniRx;
 using UnityEngine.SceneManagement;
+using Zenject;
+using Auth.Domain.Controllers;
 
 namespace InfinityZombies.SplashScreen
 {
@@ -18,7 +15,7 @@ namespace InfinityZombies.SplashScreen
 
         IDisposable subscription;
 
-        //TODO inject 
+        [Inject]
         public void Setup(IAuthController authController)
         {
             this.authController = authController;
@@ -44,7 +41,7 @@ namespace InfinityZombies.SplashScreen
 
         private void OnSplashAnimationFinished()
         {
-            if (authController.CurrentUser.Value != null)
+            if (authController.CurrentUser.Value == null)
             {
                 SceneManager.LoadScene("Login");
             }

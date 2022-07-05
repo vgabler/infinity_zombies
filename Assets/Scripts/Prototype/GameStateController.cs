@@ -16,8 +16,8 @@ namespace InfinityZombies.Prototype
         }
 
         [SerializeField] private float _startDelay = 4.0f;
-        [SerializeField] private float _endDelay = 4.0f;
-        [SerializeField] private float _gameSessionLength = 180.0f;
+        ////[SerializeField] private float _endDelay = 4.0f;
+        //[SerializeField] private float _gameSessionLength = 180.0f;
 
         //[SerializeField] private TextMeshProUGUI _startEndDisplay = null;
         //[SerializeField] private TextMeshProUGUI _ingameTimerDisplay = null;

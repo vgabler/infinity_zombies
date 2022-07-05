@@ -3,7 +3,7 @@ using Auth.Domain.UseCases;
 using System;
 using UniRx;
 
-namespace Auth.Controllers
+namespace Auth.Domain.Controllers
 {
     public interface IAuthController : IDisposable
     {

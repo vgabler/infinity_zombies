@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Auth.Controllers;
+using Auth.Domain.Controllers;
 using Auth.Domain.Entities;
 using Auth.Domain.UseCases;
 using Moq;
