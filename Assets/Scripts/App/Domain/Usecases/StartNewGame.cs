@@ -7,9 +7,15 @@ namespace InfinityZombies.Domain
 
     public class StartNewGame : IStartNewGame
     {
+        IGameService service;
+        public StartNewGame(IGameService service)
+        {
+            this.service = service;
+        }
+
         public void Invoke()
         {
-            throw new System.NotImplementedException();
+            service.StartNewGame();
         }
     }
 }

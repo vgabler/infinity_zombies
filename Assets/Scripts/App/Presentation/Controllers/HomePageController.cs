@@ -1,6 +1,7 @@
 using Auth.Domain;
 using InfinityZombies.Domain;
 using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 using Zenject;
@@ -46,12 +47,12 @@ namespace InfinityZombies.Presentation
 
         private void OnStartNewGame(Unit obj)
         {
-            joinExistingGame.Invoke();
+            startNewGame.Invoke();
         }
 
         private void OnJoinExistingGame(Unit obj)
         {
-            startNewGame.Invoke();
+            joinExistingGame.Invoke();
         }
 
         private void OnLogout(Unit obj)

@@ -140,5 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93373505efbe3d04fbec8c23debff192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testUserNickname: 
-  testSplashDelay: 2000
+  testUserNickname: Teste
+  testSplashDelay: 50
+  networkRunnerPrefab: {fileID: 2149280951158362106, guid: e36a177b64193d7489e12b9ff12d02f7, type: 3}

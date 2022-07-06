@@ -7,9 +7,15 @@ namespace InfinityZombies.Domain
 
     public class JoinExistingGame : IJoinExistingGame
     {
+        IGameService service;
+        public JoinExistingGame(IGameService service)
+        {
+            this.service = service;
+        }
+
         public void Invoke()
         {
-            throw new System.NotImplementedException();
+            service.JoinExistingGame();
         }
     }
 }

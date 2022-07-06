@@ -9,14 +9,16 @@ namespace InfinityZombies.Presentation
 {
     public interface ISceneController
     {
-        public void ChangePage(string pageName);
+        public Task ChangePage(string pageName);
     }
 
     public class SceneController : ISceneController
     {
-        public void ChangePage(string pageName)
+        public async Task ChangePage(string pageName)
         {
             SceneManager.LoadSceneAsync(pageName);
+            //TODO esperar a cena estar realmente carregada
+            await Task.Delay(200);
         }
     }
 }
