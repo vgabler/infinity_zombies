@@ -7,8 +7,22 @@ using System;
 
 namespace InfinityZombies.Prototype
 {
-    public class InputHandler : MonoBehaviour, INetworkRunnerCallbacks
+    public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     {
+        bool attached;
+
+        //TODO isso é hacky
+        private void Update()
+        {
+            if (attached || Runner == null)
+            {
+                return;
+            }
+
+            Runner.AddCallbacks(this);
+            attached = true;
+        }
+
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
             var data = new PlayerNetworkInput()

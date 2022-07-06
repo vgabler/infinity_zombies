@@ -16,8 +16,6 @@ namespace InfinityZombies
         public string testUserNickname = "";
         public int testSplashDelay = 2000;
 
-        public GameObject networkRunnerPrefab;
-
         public override void InstallBindings()
         {
             //UI
@@ -28,8 +26,6 @@ namespace InfinityZombies
 
             //Game
             Container.Bind<IMatchService>().To<PhotonMatchService>().AsSingle().Lazy();
-            Container.Bind<NetworkRunner>().FromComponentInNewPrefab(networkRunnerPrefab).AsSingle().Lazy();
-
 
             //Auth
             //TODO criar um installer dentro do módulo Auth?
