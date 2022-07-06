@@ -10,7 +10,7 @@ using Zenject;
 
 namespace InfinityZombies.Presentation.LoginScreen
 {
-    public class LoginScreenView : MonoBehaviour
+    public class LoginPageController : MonoBehaviour
     {
         public IAuthController authController;
 

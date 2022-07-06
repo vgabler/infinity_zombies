@@ -1,39 +1,36 @@
 using Auth.Domain.Controllers;
 using Auth.Domain.Entities;
+using InfinityZombies.Presentation.Controllers;
 using InfinityZombies.Presentation.SplashScreen;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-public class SplashScreenViewTests
+public class SplashScreenPageTests
 {
-    SplashScreenView view;
+    SplashScreenPageController view;
     Mock<IAuthController> authControllerMock;
+    Mock<ISceneController> sceneControllerMock;
 
     ReactiveProperty<UserInfo> currentUser;
     ReactiveProperty<bool> initialized;
 
-    string loadedScene;
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        loadedScene = scene.name;
-    }
+    string changedPage;
 
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
-        currentUser = new ReactiveProperty<UserInfo>();
-        initialized = new ReactiveProperty<bool>();
+        sceneControllerMock = new Mock<ISceneController>();
+        sceneControllerMock.Setup((c) => c.ChangePage(It.IsAny<string>()))
+        .Callback<string>((name) => changedPage = name);
 
         authControllerMock = new Mock<IAuthController>();
+        currentUser = new ReactiveProperty<UserInfo>();
+        initialized = new ReactiveProperty<bool>();
         authControllerMock.Setup((c) => c.CurrentUser).Returns(() => currentUser);
         authControllerMock.Setup((c) => c.Initialized).Returns(() => initialized);
     }
@@ -41,8 +38,6 @@ public class SplashScreenViewTests
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-
         currentUser.Dispose();
         initialized.Dispose();
     }
@@ -50,20 +45,22 @@ public class SplashScreenViewTests
     [SetUp]
     public void SetUp()
     {
-        loadedScene = null;
-        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/App/Presentation/SplashScreen/SplashScreenView.prefab");
-        view = GameObject.Instantiate(prefab).GetComponent<SplashScreenView>();
-        view.Setup(authControllerMock.Object);
-    }
+        initialized.Value = false;
+        changedPage = null;
 
+        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/App/Presentation/Pages/SplashScreenPage.prefab");
+        view = GameObject.Instantiate(prefab).GetComponent<SplashScreenPageController>();
+        view.Setup(authControllerMock.Object, sceneControllerMock.Object);
+    }
     [TearDown]
     public void TearDown()
     {
-        initialized.Value = false;
+        GameObject.DestroyImmediate(view.gameObject);
     }
 
-    [UnityTest, Timeout(5000)]
-    public IEnumerator Should_go_to_login()
+
+    [UnityTest, Timeout(3000)]
+    public IEnumerator Should_initialize_and_go_to_login()
     {
         Assert.That(view.splashAnimation.GetCurrentAnimatorStateInfo(0).IsName("Loading"), Is.EqualTo(true));
 
@@ -74,11 +71,11 @@ public class SplashScreenViewTests
 
         Assert.That(view.splashAnimation.GetCurrentAnimatorStateInfo(0).IsName("Loaded"), Is.EqualTo(true));
 
-        yield return new WaitUntil(() => loadedScene == "Login");
+        yield return new WaitUntil(() => changedPage == "Login");
     }
 
-    [UnityTest, Timeout(5000)]
-    public IEnumerator Should_go_to_home()
+    [UnityTest, Timeout(3000)]
+    public IEnumerator Should_initialize_and_go_to_home()
     {
         Assert.That(view.splashAnimation.GetCurrentAnimatorStateInfo(0).IsName("Loading"), Is.EqualTo(true));
 
@@ -89,6 +86,6 @@ public class SplashScreenViewTests
 
         Assert.That(view.splashAnimation.GetCurrentAnimatorStateInfo(0).IsName("Loaded"), Is.EqualTo(true));
 
-        yield return new WaitUntil(() => loadedScene == "Home");
+        yield return new WaitUntil(() => changedPage == "Home");
     }
 }

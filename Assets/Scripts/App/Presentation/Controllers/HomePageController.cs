@@ -10,7 +10,7 @@ using Zenject;
 
 namespace InfinityZombies.Presentation.HomeScreen
 {
-    public class HomeScreenView : MonoBehaviour
+    public class HomePageController : MonoBehaviour
     {
         public IAuthController authController;
 

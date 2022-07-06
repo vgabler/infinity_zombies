@@ -7,7 +7,9 @@
         "UnityEditor.TestRunner",
         "InfinityZombies",
         "Utils",
-        "Auth"
+        "Auth",
+        "Zenject-TestFramework",
+        "Zenject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

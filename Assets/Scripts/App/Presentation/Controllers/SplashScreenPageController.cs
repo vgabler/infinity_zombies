@@ -5,23 +5,26 @@ using UniRx;
 using UnityEngine.SceneManagement;
 using Zenject;
 using Auth.Domain.Controllers;
+using InfinityZombies.Presentation.Controllers;
 
 namespace InfinityZombies.Presentation.SplashScreen
 {
-    public class SplashScreenView : MonoBehaviour
+    public class SplashScreenPageController : MonoBehaviour
     {
-        public IAuthController authController;
         public Animator splashAnimation;
+
+        IAuthController authController;
+        ISceneController sceneController;
 
         IDisposable subscription;
 
         [Inject]
-        public void Setup(IAuthController authController)
+        public void Setup(IAuthController authController, ISceneController sceneLoader)
         {
             this.authController = authController;
+            this.sceneController = sceneLoader;
 
-            subscription = authController.Initialized
-            .Subscribe(OnAuthInitialized);
+            subscription = authController.Initialized.Subscribe(OnAuthInitialized);
 
             splashAnimation.GetComponent<AnimatorEvents>().OnAnimationFinished += OnSplashAnimationFinished;
         }
@@ -43,11 +46,11 @@ namespace InfinityZombies.Presentation.SplashScreen
         {
             if (authController.CurrentUser.Value == null)
             {
-                SceneManager.LoadScene("Login");
+                sceneController.ChangePage("Login");
             }
             else
             {
-                SceneManager.LoadScene("Home");
+                sceneController.ChangePage("Home");
             }
         }
     }
