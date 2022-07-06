@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build for Web 🌐
+    name: Build for Android
     runs-on: ubuntu-latest
     outputs:
       buildVersion: ${{ steps.buildStep.outputs.buildVersion }}
