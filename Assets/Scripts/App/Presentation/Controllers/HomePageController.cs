@@ -50,14 +50,15 @@ namespace InfinityZombies.Presentation
         {
             loadingIndicator.SetActive(true);
             await startNewGame.Invoke();
-            loadingIndicator.SetActive(false);
+            //loadingIndicator.SetActive(false);
         }
 
         private async void OnJoinExistingGame(Unit obj)
         {
             loadingIndicator.SetActive(true);
             await joinExistingGame.Invoke();
-            loadingIndicator.SetActive(false);
+            //TODO em caso de falha, desativa
+            //loadingIndicator.SetActive(false);
         }
 
         private void OnLogout(Unit obj)
