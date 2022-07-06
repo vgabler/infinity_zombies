@@ -27,7 +27,7 @@ namespace InfinityZombies
             Container.BindInterfacesTo<SceneController>().AsSingle();
 
             //Game
-            Container.Bind<IGameService>().To<PhotonGameService>().AsSingle().Lazy();
+            Container.Bind<IMatchService>().To<PhotonMatchService>().AsSingle().Lazy();
             Container.Bind<NetworkRunner>().FromComponentInNewPrefab(networkRunnerPrefab).AsSingle().Lazy();
 
 

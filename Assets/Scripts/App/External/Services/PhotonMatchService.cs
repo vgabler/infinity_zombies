@@ -1,28 +1,29 @@
 ﻿using Fusion;
 using InfinityZombies.Domain;
-using InfinityZombies.Presentation;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace InfinityZombies.External
 {
-    public class PhotonGameService : IGameService
+    public class PhotonMatchService : IMatchService
     {
         readonly NetworkRunner runner;
-        readonly ISceneController sceneController;
 
-        public PhotonGameService(NetworkRunner runner, ISceneController sceneController)
+        public PhotonMatchService(NetworkRunner runner)
         {
             this.runner = runner;
-            this.sceneController = sceneController;
         }
 
-        public Task JoinExistingGame()
+        public Task ExitCurrentMatch()
+        {
+            return runner.Shutdown();
+        }
+
+        public Task JoinExistingMatch()
         {
             return StartGame(GameMode.Client);
         }
 
-        public Task StartNewGame()
+        public Task StartNewMatch()
         {
             return StartGame(GameMode.Host);
         }
@@ -36,10 +37,12 @@ namespace InfinityZombies.External
             {
                 GameMode = mode,
                 SessionName = "TestRoom", //TODO pegar o nome do quarto
- 
+
                 //Scene = scene,
             });
 
+            //TODO deveria esperar carregar a cena direitinho
+            //Deveria passar a cena certa em vez de número
             runner.SetActiveScene(1);
 
             await Task.Delay(200);

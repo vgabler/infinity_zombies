@@ -15,8 +15,8 @@ public class HomePageTests
     HomePageController controller;
     Mock<IAuthController> authControllerMock;
     Mock<ISceneController> sceneControllerMock;
-    Mock<IStartNewGame> newGameMock;
-    Mock<IJoinExistingGame> joinGameMock;
+    Mock<IStartNewMatch> newGameMock;
+    Mock<IJoinExistingMatch> joinGameMock;
 
     ReactiveProperty<UserInfo> currentUser;
     ReactiveProperty<bool> initialized;
@@ -28,8 +28,8 @@ public class HomePageTests
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-        newGameMock = new Mock<IStartNewGame>();
-        joinGameMock = new Mock<IJoinExistingGame>();
+        newGameMock = new Mock<IStartNewMatch>();
+        joinGameMock = new Mock<IJoinExistingMatch>();
 
         sceneControllerMock = new Mock<ISceneController>();
         sceneControllerMock.Setup((c) => c.ChangePage(It.IsAny<string>()))

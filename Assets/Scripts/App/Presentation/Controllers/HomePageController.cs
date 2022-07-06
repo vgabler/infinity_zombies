@@ -19,11 +19,11 @@ namespace InfinityZombies.Presentation
         public Button joinExistingGameButton;
         public GameObject loadingIndicator; //TODO usar o animation, criar uma classe, trazer por DI
 
-        IStartNewGame startNewGame;
-        IJoinExistingGame joinExistingGame;
+        IStartNewMatch startNewGame;
+        IJoinExistingMatch joinExistingGame;
 
         [Inject]
-        public void Setup(IAuthController authController, ISceneController sceneController, IStartNewGame startNewGame, IJoinExistingGame joinExistingGame)
+        public void Setup(IAuthController authController, ISceneController sceneController, IStartNewMatch startNewGame, IJoinExistingMatch joinExistingGame)
         {
             this.authController = authController;
             this.sceneController = sceneController;

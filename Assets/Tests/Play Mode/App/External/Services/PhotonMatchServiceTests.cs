@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 
-internal class PhotonGameServiceTests
+internal class PhotonMatchServiceTests
 {
     [Test]
     public void Should_implement_tests()

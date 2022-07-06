@@ -1,11 +1,14 @@
 using InfinityZombies.Domain;
 using Zenject;
 
-public class HomePageInstaller : MonoInstaller
+namespace InfinityZombies.Presentation
 {
-    public override void InstallBindings()
+    public class HomePageInstaller : MonoInstaller
     {
-        Container.Bind<IJoinExistingGame>().To<JoinExistingGame>().AsCached();
-        Container.Bind<IStartNewGame>().To<StartNewGame>().AsCached();
+        public override void InstallBindings()
+        {
+            Container.Bind<IJoinExistingMatch>().To<JoinExistingMatchImpl>().AsCached();
+            Container.Bind<IStartNewMatch>().To<StartNewMatchImpl>().AsCached();
+        }
     }
 }

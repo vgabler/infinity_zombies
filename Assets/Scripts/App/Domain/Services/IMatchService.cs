@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 namespace InfinityZombies.Domain
 {
     //TODO Infra
-    public interface IGameService
+    public interface IMatchService
     {
-        public Task StartNewGame();
-        public Task JoinExistingGame();
+        public Task StartNewMatch();
+        public Task JoinExistingMatch();
+
+        public Task ExitCurrentMatch();
     }
 }

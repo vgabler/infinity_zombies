@@ -2,22 +2,22 @@ using System.Threading.Tasks;
 
 namespace InfinityZombies.Domain
 {
-    public interface IStartNewGame
+    public interface IJoinExistingMatch
     {
         public Task Invoke();
     }
 
-    public class StartNewGame : IStartNewGame
+    public class JoinExistingMatchImpl : IJoinExistingMatch
     {
-        IGameService service;
-        public StartNewGame(IGameService service)
+        IMatchService service;
+        public JoinExistingMatchImpl(IMatchService service)
         {
             this.service = service;
         }
 
         public Task Invoke()
         {
-            return service.StartNewGame();
+            return service.JoinExistingMatch();
         }
     }
 }
