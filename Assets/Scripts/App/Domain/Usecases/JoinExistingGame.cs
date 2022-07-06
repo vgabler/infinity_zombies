@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
+
 namespace InfinityZombies.Domain
 {
     public interface IJoinExistingGame
     {
-        public void Invoke();
+        public Task Invoke();
     }
 
     public class JoinExistingGame : IJoinExistingGame
@@ -13,9 +15,9 @@ namespace InfinityZombies.Domain
             this.service = service;
         }
 
-        public void Invoke()
+        public Task Invoke()
         {
-            service.JoinExistingGame();
+            return service.JoinExistingGame();
         }
     }
 }

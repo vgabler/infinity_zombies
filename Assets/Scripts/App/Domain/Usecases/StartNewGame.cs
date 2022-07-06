@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
+
 namespace InfinityZombies.Domain
 {
     public interface IStartNewGame
     {
-        public void Invoke();
+        public Task Invoke();
     }
 
     public class StartNewGame : IStartNewGame
@@ -13,9 +15,9 @@ namespace InfinityZombies.Domain
             this.service = service;
         }
 
-        public void Invoke()
+        public Task Invoke()
         {
-            service.StartNewGame();
+            return service.StartNewGame();
         }
     }
 }

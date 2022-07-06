@@ -70,6 +70,12 @@ public class HomePageTests
     }
 
     [Test]
+    public void Should_display_loading_indicator()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    [Test]
     public void Should_logout()
     {
         controller.logoutButton.onClick.Invoke();

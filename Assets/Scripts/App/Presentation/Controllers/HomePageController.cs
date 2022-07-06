@@ -17,6 +17,7 @@ namespace InfinityZombies.Presentation
         public Button logoutButton;
         public Button startNewGameButton;
         public Button joinExistingGameButton;
+        public GameObject loadingIndicator; //TODO usar o animation, criar uma classe, trazer por DI
 
         IStartNewGame startNewGame;
         IJoinExistingGame joinExistingGame;
@@ -45,14 +46,18 @@ namespace InfinityZombies.Presentation
             welcomeText.text = $"Bem vindo, {user?.Nickname}!";
         }
 
-        private void OnStartNewGame(Unit obj)
+        private async void OnStartNewGame(Unit obj)
         {
-            startNewGame.Invoke();
+            loadingIndicator.SetActive(true);
+            await startNewGame.Invoke();
+            loadingIndicator.SetActive(false);
         }
 
-        private void OnJoinExistingGame(Unit obj)
+        private async void OnJoinExistingGame(Unit obj)
         {
-            joinExistingGame.Invoke();
+            loadingIndicator.SetActive(true);
+            await joinExistingGame.Invoke();
+            loadingIndicator.SetActive(false);
         }
 
         private void OnLogout(Unit obj)
