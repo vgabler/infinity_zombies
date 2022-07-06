@@ -1,8 +1,7 @@
-﻿using Auth.Domain.Entities;
-using Auth.Domain.Repositories;
+﻿using Auth.Domain;
 using System.Threading.Tasks;
 
-namespace Auth.Infra.Repositories
+namespace Auth.Infra
 {
     public class MockAuthRepository : IAuthRepository
     {

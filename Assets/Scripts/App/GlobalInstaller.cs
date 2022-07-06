@@ -1,13 +1,10 @@
-using Auth.Domain.Controllers;
-using Auth.Domain.Repositories;
-using Auth.Infra.Repositories;
-using Auth.Domain.UseCases;
+using Auth.Domain;
+using Auth.Infra;
 using UnityEngine.EventSystems;
 using Zenject;
-using Auth.Domain.Entities;
-using InfinityZombies.Presentation.Controllers;
+using InfinityZombies.Presentation;
 
-namespace App
+namespace InfinityZombies
 {
     public class GlobalInstaller : MonoInstaller
     {

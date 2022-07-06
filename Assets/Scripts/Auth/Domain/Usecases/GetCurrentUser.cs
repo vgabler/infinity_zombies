@@ -1,12 +1,6 @@
-using Auth.Domain.Repositories;
-using Auth.Domain.Entities;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Threading.Tasks;
-using UnityEngine;
 
-namespace Auth.Domain.UseCases
+namespace Auth.Domain
 {
     public interface IGetCurrentUser
     {

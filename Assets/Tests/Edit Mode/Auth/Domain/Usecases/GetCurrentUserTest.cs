@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Auth.Domain.Repositories;
-using Auth.Domain.UseCases;
+using Auth.Domain;
 using Moq;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 public class GetCurrentUserTest
 {
@@ -23,7 +18,7 @@ public class GetCurrentUserTest
     [Test]
     public async Task Should_get_data_if_authenticated()
     {
-        mockRepository.Setup((repo) => repo.GetCurrentUser()).ReturnsAsync(new Auth.Domain.Entities.UserInfo());
+        mockRepository.Setup((repo) => repo.GetCurrentUser()).ReturnsAsync(new UserInfo());
 
         var result = await usecase.Invoke();
 

@@ -2,12 +2,10 @@ using System;
 using UnityEngine;
 using Utils;
 using UniRx;
-using UnityEngine.SceneManagement;
 using Zenject;
-using Auth.Domain.Controllers;
-using InfinityZombies.Presentation.Controllers;
+using Auth.Domain;
 
-namespace InfinityZombies.Presentation.SplashScreen
+namespace InfinityZombies.Presentation
 {
     public class SplashScreenPageController : MonoBehaviour
     {
@@ -46,11 +44,11 @@ namespace InfinityZombies.Presentation.SplashScreen
         {
             if (authController.CurrentUser.Value == null)
             {
-                sceneController.ChangePage("Login");
+                sceneController.ChangePage(Constants.Pages.Login);
             }
             else
             {
-                sceneController.ChangePage("Home");
+                sceneController.ChangePage(Constants.Pages.Home);
             }
         }
     }

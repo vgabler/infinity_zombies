@@ -1,11 +1,9 @@
-using Auth.Domain.Entities;
-using Auth.Domain.UseCases;
 using System;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Auth.Domain.Controllers
+namespace Auth.Domain
 {
     public interface IAuthController
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace InfinityZombies.Presentation.Controllers
+namespace InfinityZombies.Presentation
 {
     public interface ISceneController
     {

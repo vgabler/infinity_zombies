@@ -1,7 +1,6 @@
-using InfinityZombies.Presentation.Controllers;
+using InfinityZombies.Presentation;
 using NUnit.Framework;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;

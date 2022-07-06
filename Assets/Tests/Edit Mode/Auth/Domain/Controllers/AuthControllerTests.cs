@@ -1,7 +1,5 @@
 using System.Threading.Tasks;
-using Auth.Domain.Controllers;
-using Auth.Domain.Entities;
-using Auth.Domain.UseCases;
+using Auth.Domain;
 using Moq;
 using NUnit.Framework;
 

@@ -1,7 +1,6 @@
-using Auth.Domain.Controllers;
-using Auth.Domain.Entities;
-using InfinityZombies.Presentation.Controllers;
-using InfinityZombies.Presentation.SplashScreen;
+using Auth.Domain;
+using InfinityZombies;
+using InfinityZombies.Presentation;
 using Moq;
 using NUnit.Framework;
 using System.Collections;
@@ -71,7 +70,7 @@ public class SplashScreenPageTests
 
         Assert.That(view.splashAnimation.GetCurrentAnimatorStateInfo(0).IsName("Loaded"), Is.EqualTo(true));
 
-        yield return new WaitUntil(() => changedPage == "Login");
+        yield return new WaitUntil(() => changedPage == Constants.Pages.Login);
     }
 
     [UnityTest, Timeout(3000)]
@@ -86,6 +85,6 @@ public class SplashScreenPageTests
 
         Assert.That(view.splashAnimation.GetCurrentAnimatorStateInfo(0).IsName("Loaded"), Is.EqualTo(true));
 
-        yield return new WaitUntil(() => changedPage == "Home");
+        yield return new WaitUntil(() => changedPage == Constants.Pages.Home);
     }
 }

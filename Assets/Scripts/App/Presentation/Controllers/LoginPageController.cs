@@ -1,5 +1,4 @@
-using Auth.Domain.Controllers;
-using Auth.Domain.Entities;
+using Auth.Domain;
 using System;
 using System.Collections.Generic;
 using UniRx;
@@ -8,7 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
-namespace InfinityZombies.Presentation.LoginScreen
+namespace InfinityZombies.Presentation
 {
     public class LoginPageController : MonoBehaviour
     {
