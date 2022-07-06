@@ -1,43 +1,42 @@
 using Auth.Domain;
-using System;
-using System.Collections.Generic;
+using InfinityZombies.Domain;
 using UniRx;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utils;
 using Zenject;
 
 namespace InfinityZombies.Presentation
 {
-    public class HomePageController : MonoBehaviour
+    public class HomePageController : ReactiveMonobehaviour
     {
         public IAuthController authController;
+        public ISceneController sceneController;
 
         public Text welcomeText;
         public Button logoutButton;
+        public Button startNewGameButton;
+        public Button joinExistingGameButton;
 
-        //TODO ver se precisa disso mesmo
-        List<IDisposable> subscriptions = new List<IDisposable>();
+        IStartNewGame startNewGame;
+        IJoinExistingGame joinExistingGame;
 
         [Inject]
-        public void Setup(IAuthController authController)
+        public void Setup(IAuthController authController, ISceneController sceneController, IStartNewGame startNewGame, IJoinExistingGame joinExistingGame)
         {
             this.authController = authController;
+            this.sceneController = sceneController;
+            this.startNewGame = startNewGame;
+            this.joinExistingGame = joinExistingGame;
 
-            subscriptions.Add(authController.CurrentUser
-            .Subscribe(OnUserChanged));
-            OnUserChanged(authController.CurrentUser.Value);
+            //Atualizar as informações do jogador atual
+            SubscribeProperty(authController.CurrentUser, OnUserChanged);
 
-            subscriptions.Add(logoutButton.OnClickAsObservable().Subscribe(OnLogoutClicked));
-        }
-
-        private void OnLogoutClicked(Unit obj)
-        {
-            //TODO logout usecase
-            authController.UserChanged(null);
-
-            //TODO deveria fazer isso automaticamente?
-            SceneManager.LoadScene("Login");
+            //Botão New Game
+            SubscribeProperty(startNewGameButton.OnClickAsObservable().ToReactiveProperty(), OnStartNewGame);
+            //Botão Join Game
+            SubscribeProperty(joinExistingGameButton.OnClickAsObservable().ToReactiveProperty(), OnJoinExistingGame);
+            //Botão logout
+            SubscribeProperty(logoutButton.OnClickAsObservable().ToReactiveProperty(), OnLogout);
         }
 
         void OnUserChanged(UserInfo user)
@@ -45,12 +44,23 @@ namespace InfinityZombies.Presentation
             welcomeText.text = $"Bem vindo, {user?.Nickname}!";
         }
 
-        private void OnDestroy()
+        private void OnStartNewGame(Unit obj)
         {
-            foreach (var s in subscriptions)
-            {
-                s.Dispose();
-            }
+            joinExistingGame.Invoke();
+        }
+
+        private void OnJoinExistingGame(Unit obj)
+        {
+            startNewGame.Invoke();
+        }
+
+        private void OnLogout(Unit obj)
+        {
+            //TODO logout usecase
+            authController.UserChanged(null);
+
+            //TODO deveria sair dessa página automaticamente?
+            sceneController.ChangePage(Constants.Pages.Login);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace InfinityZombies.Presentation
 
             //TODO login usecase
             authController.UserChanged(new UserInfo() { Nickname = nicknameText.text, Id = $"{nicknameText.text}-{Time.deltaTime * 1000}" });
-            SceneManager.LoadScene("Home");
+            SceneManager.LoadScene(Constants.Pages.Home);
             loginButton.interactable = true;
         }
 

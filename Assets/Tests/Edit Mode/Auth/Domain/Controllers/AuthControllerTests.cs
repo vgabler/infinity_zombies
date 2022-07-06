@@ -25,7 +25,7 @@ public class AuthControllerTests
     {
         mockUsecase.Setup((c) => c.Invoke()).Returns(async () =>
         {
-            await Task.Delay(20);
+            await Task.Delay(10);
             return null;
         });
 
@@ -35,7 +35,7 @@ public class AuthControllerTests
         Assert.That(controller.Initialized.Value, Is.EqualTo(false));
         Assert.IsNull(controller.CurrentUser.Value);
 
-        await Task.Delay(20);
+        await Task.Delay(25);
 
         Assert.That(controller.Initialized.Value, Is.EqualTo(true));
         Assert.IsNull(controller.CurrentUser.Value);
@@ -46,7 +46,7 @@ public class AuthControllerTests
     {
         mockUsecase.Setup((c) => c.Invoke()).Returns(async () =>
         {
-            await Task.Delay(20);
+            await Task.Delay(10);
             return new UserInfo();
         });
 
@@ -56,7 +56,7 @@ public class AuthControllerTests
         Assert.That(controller.Initialized.Value, Is.EqualTo(false));
         Assert.IsNull(controller.CurrentUser.Value);
 
-        await Task.Delay(20);
+        await Task.Delay(25);
 
         Assert.That(controller.Initialized.Value, Is.EqualTo(true));
         Assert.IsNotNull(controller.CurrentUser.Value);
