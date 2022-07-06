@@ -29,14 +29,14 @@ namespace InfinityZombies.Presentation
             this.joinExistingGame = joinExistingGame;
 
             //Atualizar as informações do jogador atual
-            SubscribeProperty(authController.CurrentUser, OnUserChanged);
+            SubscribePropertyUpdateNow(authController.CurrentUser, OnUserChanged);
 
             //Botão New Game
-            SubscribeProperty(startNewGameButton.OnClickAsObservable().ToReactiveProperty(), OnStartNewGame);
+            Subscribe(startNewGameButton.OnClickAsObservable(), OnStartNewGame);
             //Botão Join Game
-            SubscribeProperty(joinExistingGameButton.OnClickAsObservable().ToReactiveProperty(), OnJoinExistingGame);
+            Subscribe(joinExistingGameButton.OnClickAsObservable(), OnJoinExistingGame);
             //Botão logout
-            SubscribeProperty(logoutButton.OnClickAsObservable().ToReactiveProperty(), OnLogout);
+            Subscribe(logoutButton.OnClickAsObservable(), OnLogout);
         }
 
         void OnUserChanged(UserInfo user)

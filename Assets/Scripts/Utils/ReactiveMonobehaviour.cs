@@ -9,14 +9,15 @@ namespace Utils
     {
         List<IDisposable> subscriptions = new List<IDisposable>();
 
-        protected virtual void SubscribeProperty<T>(IReadOnlyReactiveProperty<T> observable, Action<T> onValueChanged, bool triggerCurrent = true)
+        protected virtual void SubscribePropertyUpdateNow<T>(IReadOnlyReactiveProperty<T> observable, Action<T> onValueChanged)
+        {
+            Subscribe(observable, onValueChanged);
+            onValueChanged(observable.Value);
+        }
+
+        protected virtual void Subscribe<T>(IObservable<T> observable, Action<T> onValueChanged)
         {
             subscriptions.Add(observable.Subscribe(onValueChanged));
-
-            if (triggerCurrent)
-            {
-                onValueChanged(observable.Value);
-            }
         }
 
         protected virtual void OnDestroy()
