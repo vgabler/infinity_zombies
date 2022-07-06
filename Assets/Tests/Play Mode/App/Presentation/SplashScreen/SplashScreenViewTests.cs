@@ -62,7 +62,7 @@ public class SplashScreenViewTests
         initialized.Value = false;
     }
 
-    [UnityTest, Timeout(3000)]
+    [UnityTest, Timeout(5000)]
     public IEnumerator Should_go_to_login()
     {
         Assert.That(view.splashAnimation.GetCurrentAnimatorStateInfo(0).IsName("Loading"), Is.EqualTo(true));
@@ -77,7 +77,7 @@ public class SplashScreenViewTests
         yield return new WaitUntil(() => loadedScene == "Login");
     }
 
-    [UnityTest, Timeout(3000)]
+    [UnityTest, Timeout(5000)]
     public IEnumerator Should_go_to_home()
     {
         Assert.That(view.splashAnimation.GetCurrentAnimatorStateInfo(0).IsName("Loading"), Is.EqualTo(true));
