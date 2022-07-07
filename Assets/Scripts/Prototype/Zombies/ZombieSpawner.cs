@@ -45,11 +45,6 @@ namespace InfinityZombies.Prototype
 
             var position = transform.position;
 
-            //Vai para o centro
-            var direction = -position.normalized;
-
-            var rotation = Quaternion.Euler(Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f));
-
             Runner.Spawn(zombiePrefab, position, inputAuthority: PlayerRef.None);
 
             // Sets the delay until the next spawn.

@@ -8,7 +8,7 @@ using Zenject;
 
 namespace InfinityZombies.Presentation
 {
-    public class GamePageController : ReactiveMonobehaviour
+    public class GamePageController : ReactiveMonoBehaviour
     {
         public ISceneController sceneController;
 

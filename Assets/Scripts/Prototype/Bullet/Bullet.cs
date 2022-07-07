@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using Game.Domain;
 using UnityEngine;
-
+using Zenject;
 
 namespace InfinityZombies.Prototype
 {
@@ -57,23 +58,6 @@ namespace InfinityZombies.Prototype
         // Check if the bullet will hit an asteroid in the next tick.
         private bool HitSomething()
         {
-            //var list = new List<LagCompensatedHit>();
-
-            //var hits = Runner.LagCompensation.OverlapSphere(transform.position, 1, Object.InputAuthority, list, _zombieLayer);
-
-
-            //if (hits <= 0)
-            //{
-            //    return false;
-            //}
-
-            //foreach (var hit in list)
-            //{
-            //    print("Hit something: " + hit.GameObject.name);
-            //    var zombie = hit.GameObject.GetComponent<Zombie>();
-            //    zombie.HitByBullet(Object.InputAuthority);
-            //}
-
             var hitSomething = Runner.LagCompensation.Raycast(transform.position, _direction, _speed * Runner.DeltaTime,
                 Object.InputAuthority, out var hit, _zombieLayer);
 
@@ -81,8 +65,10 @@ namespace InfinityZombies.Prototype
 
             print("Hit something: " + hit.GameObject.name);
 
-            var h = hit.Hitbox.Root.GetComponent<Health>();
-            h.TakeDamage(1);
+            var ctx = hit.Hitbox.Root.GetComponent<GameObjectContext>();
+            var target = ctx.Container.Resolve<ITakesDamage>();
+
+            target.TakeDamage(1);
 
             return true;
         }

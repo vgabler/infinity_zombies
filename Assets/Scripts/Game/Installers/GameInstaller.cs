@@ -7,11 +7,13 @@ namespace Game
     public class GameInstaller : MonoInstaller
     {
         public GameObject gameStateController;
+        public GameObject zombiesController;
+        public StageDefinition stage;
         public override void InstallBindings()
         {
-            var controller = gameStateController.GetComponent<IGameStateController>();
-
-            Container.BindInterfacesTo<GameStateControllerImpl>().FromInstance(controller).AsSingle();
+            Container.BindInterfacesTo<GameStateControllerImpl>().FromComponentOn(gameStateController).AsSingle();
+            Container.BindInterfacesTo<ZombiesController>().FromComponentOn(zombiesController).AsSingle();
+            Container.BindInstance(stage).AsSingle();
         }
     }
 }

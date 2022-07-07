@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Game.Presentation
 {
-    public class GameUIController : ReactiveMonobehaviour
+    public class GameUIController : ReactiveMonoBehaviour
     {
         public GameObject startingUI;
         public Text startingUITimer;

@@ -1,27 +1,39 @@
 using Fusion;
 using UnityEngine.Events;
+using UniRx;
 
 namespace Game.Domain
 {
     public interface IHealth
     {
-        public int CurrentHealth { get; }
+        public IReadOnlyReactiveProperty<int> Health { get; }
+
+        public IReadOnlyReactiveProperty<bool> IsDead { get; }
     }
 
-    public class HealthNetworked : NetworkBehaviour, IHealth
+    public class HealthNetworked : NetworkBehaviour, IHealth, ITakesDamage
     {
         public int maxHealth = 3;
-        [Networked(OnChanged = nameof(OnHealthChanged))] public int CurrentHealth { get; set; }
-        bool IsDead => CurrentHealth <= 0;
+        [Networked(OnChanged = nameof(OnHealthChanged))] int _health { get; set; }
+
+        IReadOnlyReactiveProperty<int> IHealth.Health => healthProp;
+
+        IReadOnlyReactiveProperty<bool> IHealth.IsDead => isDeadProp;
+
+        readonly ReactiveProperty<bool> isDeadProp = new ReactiveProperty<bool>();
+        readonly ReactiveProperty<int> healthProp = new ReactiveProperty<int>();
 
         public UnityEvent<int> onChanged;
         public UnityEvent onDeath;
 
         public override void Spawned()
         {
-            if (Object.HasStateAuthority == false) return;
+            if (Object.HasStateAuthority == false)
+            {
+                return;
+            };
 
-            CurrentHealth = maxHealth;
+            _health = maxHealth;
         }
 
         public void TakeDamage(int damage)
@@ -31,21 +43,31 @@ namespace Game.Domain
                 return;
             }
 
-            CurrentHealth -= damage;
+            _health -= damage;
         }
 
         static void OnHealthChanged(Changed<HealthNetworked> info)
         {
-            info.Behaviour.OnHealthChanged(info.Behaviour.CurrentHealth);
+            info.Behaviour.OnHealthChanged(info.Behaviour._health);
         }
 
-        void OnHealthChanged(int lives)
+        void OnHealthChanged(int health)
         {
-            onChanged?.Invoke(lives);
-            if (IsDead)
+            healthProp.Value = health;
+            onChanged?.Invoke(health);
+
+            isDeadProp.Value = health <= 0;
+
+            if (isDeadProp.Value)
             {
                 onDeath?.Invoke();
             }
+        }
+
+        void OnDestroy()
+        {
+            isDeadProp.Dispose();
+            healthProp.Dispose();
         }
     }
 }

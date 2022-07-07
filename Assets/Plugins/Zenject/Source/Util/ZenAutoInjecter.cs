@@ -30,6 +30,7 @@ namespace Zenject
         public void Awake()
         {
             _hasInjected = true;
+
             LookupContainer().InjectGameObject(gameObject);
         }
 
@@ -51,6 +52,10 @@ namespace Zenject
 
             if (parentContext != null)
             {
+                if (parentContext.Container == null && parentContext is GameObjectContext goContext)
+                {
+                    goContext.Install(GetContainerForCurrentScene());
+                }
                 return parentContext.Container;
             }
 

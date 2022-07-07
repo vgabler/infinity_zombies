@@ -51,7 +51,7 @@ namespace Game.Domain
             {
                 var health = c.GetComponent<IHealth>();
 
-                if (health == null || health.CurrentHealth <= 0)
+                if (health == null || health.Health.Value <= 0)
                 {
                     continue;
                 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Utils
 {
-    public class ReactiveMonobehaviour : MonoBehaviour
+    public class ReactiveMonoBehaviour : MonoBehaviour
     {
         List<IDisposable> subscriptions = new List<IDisposable>();
 
