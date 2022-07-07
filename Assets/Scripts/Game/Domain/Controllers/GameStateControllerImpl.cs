@@ -7,6 +7,9 @@ using System;
 
 namespace Game.Domain
 {
+    /// <summary>
+    /// Controla o estado atual do jogo, com os temporizadores.
+    /// </summary>
     public class GameStateControllerImpl : NetworkBehaviour, IGameStateController, IDisposable
     {
         enum State { Starting, Running, Ending }
@@ -22,20 +25,8 @@ namespace Game.Domain
         [Networked] private TickTimer _timer { get; set; }
         [Networked] private State _state { get; set; } = State.Starting;
 
-        private List<NetworkBehaviourId> _playerDataNetworkedIds = new List<NetworkBehaviourId>();
-
         public override void Spawned()
         {
-            //Se o jogo já começou, recupera os ids dos jogadores
-            if (_state != State.Starting)
-            {
-                //foreach (var player in Runner.ActivePlayers)
-                //{
-                //    if (Runner.TryGetPlayerObject(player, out var playerObject) == false) continue;
-                //    _playerDataNetworkedIds.Add(playerObject.GetComponent<PlayerDataNetworked>().Id);
-                //}
-            }
-
             // Inicializar o estado do jogo somente no host
             if (Object.HasStateAuthority == false) return;
 
@@ -43,6 +34,7 @@ namespace Game.Domain
             _state = State.Starting;
             _timer = TickTimer.CreateFromSeconds(Runner, _startDelay);
         }
+
         public override void FixedUpdateNetwork()
         {
             switch (_state)
@@ -81,8 +73,7 @@ namespace Game.Domain
             if (Object.HasStateAuthority == false) return;
             if (!_timer.ExpiredOrNotRunning(Runner)) return;
 
-            _state = State.Ending;
-            _timer = TickTimer.CreateFromSeconds(Runner, _endDelay);
+            EndGame();
         }
 
         void UpdateEnding()
@@ -96,6 +87,12 @@ namespace Game.Domain
             if (!_timer.ExpiredOrNotRunning(Runner)) return;
 
             Runner.Shutdown();
+        }
+
+        public void EndGame()
+        {
+            _timer = TickTimer.CreateFromSeconds(Runner, _endDelay);
+            _state = State.Ending;
         }
 
         public void Dispose()
