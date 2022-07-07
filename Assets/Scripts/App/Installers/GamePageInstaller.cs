@@ -1,7 +1,9 @@
+using Game.Domain;
 using InfinityZombies.Domain;
+using UnityEngine;
 using Zenject;
 
-namespace InfinityZombies.Presentation
+namespace InfinityZombies
 {
     public class GamePageInstaller : MonoInstaller
     {

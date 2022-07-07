@@ -42,9 +42,7 @@ namespace InfinityZombies.External
             await runner.StartGame(new StartGameArgs()
             {
                 GameMode = mode,
-                SessionName = "TestRoom", //TODO pegar o nome do quarto
-
-                //Scene = scene,
+                SessionName = "TestRoom", //TODO pegar o nome da session
             });
 
             //TODO deveria esperar carregar a cena direitinho
