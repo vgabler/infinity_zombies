@@ -9,18 +9,10 @@ namespace InfinityZombies.Prototype
 {
     public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     {
-        bool attached;
-
-        //TODO isso é hacky
-        private void Update()
+        public override void Spawned()
         {
-            if (attached || Runner == null)
-            {
-                return;
-            }
-
+            base.Spawned();
             Runner.AddCallbacks(this);
-            attached = true;
         }
 
         public void OnInput(NetworkRunner runner, NetworkInput input)
