@@ -13,11 +13,17 @@ namespace Game
     /// </summary>
     public class NetworkInputController : NetworkBehaviour, INetworkRunnerCallbacks
     {
-        //TODO camera deveria vir por injection
+        //TODO camera deveria vir por injection (desktop only?)
         public Camera cam;
         public LayerMask groundMask;
 
+#if UNITY_ANDROID || UNITY_IOS
+        //Para ser alterado pelos thumbsticks no android / iOS
+        public Vector2 MovementInput { get; set; }
+        public Vector2 FireInput { get; set; }
+#else
         Vector3 dir;
+#endif
 
         public override void Spawned()
         {
@@ -25,6 +31,7 @@ namespace Game
 
             Runner.AddCallbacks(this);
         }
+
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
             var playerObj = Runner.GetPlayerObject(Runner.LocalPlayer);
@@ -35,6 +42,18 @@ namespace Game
                 return;
             }
 
+#if UNITY_ANDROID || UNITY_IOS
+            var data = new PlayerNetworkInput()
+            {
+                HorizontalMovement = MovementInput.x,
+                VerticalMovement = MovementInput.y,
+                //Sempre atira para frente, então ignora o Y
+                HorizontalFire = FireInput.x,
+                VerticalFire = FireInput.y
+            };
+
+            data.Buttons.Set(PlayerButtons.Attack, FireInput.x != 0 || FireInput.y != 0);
+#else
             var (success, position) = GetMouseWorldPosition();
             if (success)
             {
@@ -53,6 +72,7 @@ namespace Game
             };
 
             data.Buttons.Set(PlayerButtons.Attack, Input.GetButton("Fire1"));
+#endif
 
             input.Set(data);
         }
