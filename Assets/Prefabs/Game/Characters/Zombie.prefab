@@ -171,8 +171,9 @@ MonoBehaviour:
   jumpImpulse: 8
   acceleration: 10
   braking: 10
-  maxSpeed: 4
+  maxSpeed: 2
   rotationSpeed: 15
+  followRotation: 1
   _IsGrounded: 0
   _Velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &6782729493894674325
@@ -539,7 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  startingMaxHealth: 3
+  startingMaxHealth: 10
   onChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -588,7 +589,7 @@ Animator:
   m_GameObject: {fileID: 9207664988329703693}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: dbbc53a6bc8f5c64bb234194ce1380aa, type: 3}
-  m_Controller: {fileID: 9100000, guid: fd74331aacf5ca64aa08ae36d587af8b, type: 2}
+  m_Controller: {fileID: 22100000, guid: f9f1280b69a8ec24db6690dafad662b5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
