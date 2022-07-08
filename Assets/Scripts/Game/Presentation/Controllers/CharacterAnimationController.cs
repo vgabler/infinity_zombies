@@ -8,18 +8,19 @@ namespace Game.Presentation
     public class CharacterAnimationController : MonoBehaviour
     {
         Animator animator;
-        CharacterController controller;
+        NetworkCharacterControllerPrototype controller;
 
         [Inject]
-        public void Setup(CharacterController controller, Animator animator)
+        public void Setup(NetworkCharacterControllerPrototype controller, Animator animator)
         {
             this.animator = animator;
             this.controller = controller;
         }
         private void Update()
         {
-            var speed = controller.velocity.magnitude;
+            var speed = controller.Velocity.magnitude / controller.maxSpeed;
 
+            animator.SetFloat("Speed", speed);
         }
     }
 }

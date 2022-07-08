@@ -9,7 +9,6 @@ namespace Game
 {
     public class PlayerMovement : NetworkBehaviour
     {
-        [SerializeField] float _speed = 5;
         NetworkCharacterControllerPrototype _controller;
         IHealth _health;
 
@@ -44,9 +43,7 @@ namespace Game
 
             if (GetInput(out PlayerNetworkInput data))
             {
-                var dir = new Vector3(data.HorizontalMovement, 0, data.VerticalMovement).normalized;
-
-                _controller.Move(Runner.DeltaTime * _speed * dir);
+                _controller.Move(new Vector3(data.HorizontalMovement, 0, data.VerticalMovement).normalized);
             }
         }
     }
