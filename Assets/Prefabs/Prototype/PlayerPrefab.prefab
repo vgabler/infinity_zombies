@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6696167998515788601}
   - component: {fileID: 697975338986432566}
   - component: {fileID: 4674077407244161901}
+  - component: {fileID: 6421608157827228086}
   m_Layer: 7
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -155,6 +156,7 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 4674077407244161901}
+  - {fileID: 6421608157827228086}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -184,6 +186,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 5183173360459211215}
+--- !u!114 &6421608157827228086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081422630185566843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2793b9331a27b41b59896aa58bc7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1214911363413313921
 GameObject:
   m_ObjectHideFlags: 0

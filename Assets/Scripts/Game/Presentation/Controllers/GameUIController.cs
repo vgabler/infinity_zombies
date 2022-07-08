@@ -14,12 +14,14 @@ namespace Game.Presentation
         public GameObject runningUI;
         public Text runningUITimer;
         public Text runningUIzombiesCount;
+        public Text runningUITotalScore;
 
         [Inject]
-        public void Setup(IGameStateController gameStateController, IEntityManager<ZombieEntity> entityManager)
+        public void Setup(IGameStateController gameStateController, IEntityManager<ZombieEntity> entityManager, IScoreController scoreController)
         {
             SubscribePropertyUpdateNow(gameStateController.GameState, OnGameStateChanged);
             Subscribe(entityManager.Entities.ObserveCountChanged(true), (count) => runningUIzombiesCount.text = $"Zombies left: {count}");
+            Subscribe(scoreController.Score, (score) => runningUITotalScore.text = $"Total score: {score}");
         }
 
         private void OnGameStateChanged(IGameState obj)

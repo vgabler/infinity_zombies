@@ -2,7 +2,6 @@ using Game.Domain;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
-using Zenject;
 using UniRx;
 
 namespace Game.Presentation
@@ -45,13 +44,23 @@ namespace Game.Presentation
             if (isMine)
                 transform.SetAsFirstSibling();
 
-            //TODO
-            //var scorer = playerContext.Container.Resolve<IScorer>();
-            //SubscribePropertyUpdateNow(scorer.Score, OnScoreChanged);
+            //Atualiza a pontuação
+            var scorer = player.Context.Container.Resolve<IScorer>();
+            SubscribePropertyUpdateNow(scorer.Score, OnScoreChanged);
 
-            //TODO
-            //var nicknamed = playerContext.Container.Resolve<INicknamed>();
-            //SubscribePropertyUpdateNow(nicknamed.Nickname, OnNicknameChanged);
+            //Atualiza o nickname
+            var nicknamed = player.Context.Container.Resolve<INicknamed>();
+            SubscribePropertyUpdateNow(nicknamed.Nickname, OnNicknameChanged);
+        }
+
+        private void OnNicknameChanged(string nick)
+        {
+            nickname.text = nick;
+        }
+
+        private void OnScoreChanged(int obj)
+        {
+            score.text = $"Score: {obj}";
         }
 
         private void OnIsDeadChanged(bool isDead)

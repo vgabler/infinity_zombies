@@ -14,6 +14,8 @@ namespace Game
             Container.BindInterfacesTo<BasicEntityManager<PlayerEntity>>().AsSingle();
             Container.BindInterfacesTo<BasicEntityManager<ZombieEntity>>().AsSingle();
 
+            Container.BindInstance(GetComponentInChildren<IScoreController>()).AsSingle();
+
             Container.BindInterfacesTo<GameStateControllerImpl>().FromComponentOn(gameStateController).AsSingle();
             Container.BindInterfacesTo<ZombiesController>().FromComponentOn(zombiesController).AsSingle();
             Container.BindInstance(stage).AsSingle();

@@ -41,8 +41,6 @@ namespace Game
                 return;
             }
 
-            print("Melee hit on: " + hit.GameObject.name);
-
             var target = hit.Hitbox.Root.GetComponentInChildren<ITakesDamage>();
 
             //var ctx = hit.Hitbox.Root.GetComponent<GameObjectContext>();
@@ -54,7 +52,7 @@ namespace Game
                 return;
             }
 
-            target.TakeDamage(damage);
+            target.TakeDamage(damage, Object.StateAuthority);
         }
     }
 }

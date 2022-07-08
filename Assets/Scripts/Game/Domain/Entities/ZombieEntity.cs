@@ -6,15 +6,21 @@ namespace Game.Domain
 {
     public class ZombieEntity : NetworkBehaviour
     {
+        public int scoreValue = 1;
+
         IEntityManager<ZombieEntity> entityManager;
 
         IHealth health;
+        ITakesDamage takesDamage;
+        IScoreController scoreController;
 
         [Inject]
-        public void Setup(IEntityManager<ZombieEntity> entityManager, IHealth health)
+        public void Setup(IEntityManager<ZombieEntity> entityManager, IHealth health, ITakesDamage takesDamage, IScoreController scoreController)
         {
             this.entityManager = entityManager;
             this.health = health;
+            this.takesDamage = takesDamage;
+            this.scoreController = scoreController;
         }
 
         public override void FixedUpdateNetwork()
@@ -23,6 +29,8 @@ namespace Game.Domain
 
             if (Object.HasStateAuthority && health.IsDead.Value)
             {
+                scoreController.AddScore(takesDamage.LastAttackerId.Value, scoreValue);
+
                 Runner.Despawn(Object);
             }
         }

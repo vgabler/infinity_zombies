@@ -40,7 +40,7 @@ namespace Game
 
             if (transform.position.magnitude <= deathRange)
             {
-                takesDamage.TakeDamage(9999);
+                takesDamage.TakeDamage(9999, Object.StateAuthority);
                 isDead = true;
             }
         }

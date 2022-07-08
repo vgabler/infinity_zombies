@@ -63,12 +63,10 @@ namespace InfinityZombies.Prototype
 
             if (hitSomething == false) return false;
 
-            print("Hit something: " + hit.GameObject.name);
-
             var ctx = hit.Hitbox.Root.GetComponent<GameObjectContext>();
             var target = ctx.Container.Resolve<ITakesDamage>();
 
-            target.TakeDamage(1);
+            target.TakeDamage(1, Object.InputAuthority);
 
             return true;
         }

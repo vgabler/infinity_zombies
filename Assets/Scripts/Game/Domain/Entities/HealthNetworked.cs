@@ -1,6 +1,7 @@
 using Fusion;
 using UnityEngine.Events;
 using UniRx;
+using UnityEngine;
 
 namespace Game.Domain
 {
@@ -18,14 +19,17 @@ namespace Game.Domain
 
         [Networked(OnChanged = nameof(OnPropertyChanged))] int _maxHealth { get; set; }
         [Networked(OnChanged = nameof(OnPropertyChanged))] int _health { get; set; }
+        [Networked(OnChanged = nameof(OnPropertyChanged))] int _lastAttackerId { get; set; }
 
         public IReadOnlyReactiveProperty<int> Health => healthProp;
         public IReadOnlyReactiveProperty<int> MaxHealth => maxHealthProp;
         public IReadOnlyReactiveProperty<bool> IsDead => isDeadProp;
+        public IReadOnlyReactiveProperty<int> LastAttackerId => lastAttackerIdProp;
 
         readonly ReactiveProperty<bool> isDeadProp = new ReactiveProperty<bool>();
         readonly ReactiveProperty<int> healthProp = new ReactiveProperty<int>();
         readonly ReactiveProperty<int> maxHealthProp = new ReactiveProperty<int>();
+        readonly ReactiveProperty<int> lastAttackerIdProp = new ReactiveProperty<int>();
 
         public UnityEvent<int> onChanged;
         public UnityEvent onDeath;
@@ -41,13 +45,14 @@ namespace Game.Domain
             _health = _maxHealth;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, int attackerId)
         {
             if (Object.HasStateAuthority == false)
             {
                 return;
             }
 
+            _lastAttackerId = attackerId;
             _health -= damage;
         }
 
@@ -58,6 +63,7 @@ namespace Game.Domain
 
         void OnHealthChanged()
         {
+            lastAttackerIdProp.Value = _lastAttackerId;
             maxHealthProp.Value = _maxHealth;
             healthProp.Value = _health;
             onChanged?.Invoke(_health);
@@ -72,6 +78,7 @@ namespace Game.Domain
 
         void OnDestroy()
         {
+            lastAttackerIdProp.Dispose();
             isDeadProp.Dispose();
             healthProp.Dispose();
             maxHealthProp.Dispose();

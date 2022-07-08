@@ -1,7 +1,10 @@
-﻿namespace Game.Domain
+﻿using UniRx;
+
+namespace Game.Domain
 {
     public interface ITakesDamage
     {
-        public void TakeDamage(int value);
+        public IReadOnlyReactiveProperty<int> LastAttackerId { get; }
+        public void TakeDamage(int value, int attackerId);
     }
 }
