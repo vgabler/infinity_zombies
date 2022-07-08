@@ -18,7 +18,7 @@ MonoBehaviour:
   - waveDelay: 0
     defaultActionDelay: 2
     prefabs:
-    - {fileID: 2253738522303431292, guid: 8373ab36f6d80d345a423ef275dff7b6, type: 3}
+    - {fileID: 4687991490023401759, guid: 9e104560873e2b94983b375a4997a81d, type: 3}
     actions:
     - actionDelay: 0
       spawns: 00000000
@@ -29,7 +29,7 @@ MonoBehaviour:
   - waveDelay: 0
     defaultActionDelay: 2
     prefabs:
-    - {fileID: 2253738522303431292, guid: 8373ab36f6d80d345a423ef275dff7b6, type: 3}
+    - {fileID: 4687991490023401759, guid: 9e104560873e2b94983b375a4997a81d, type: 3}
     actions:
     - actionDelay: 0
       spawns: 0000000000000000000000000000000000000000
