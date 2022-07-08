@@ -8,6 +8,7 @@ namespace InfinityZombies
             public static readonly string Login = "Login";
             public static readonly string Home = "Home";
             public static readonly string Splash = "Splash";
+            public static readonly string Empty = "Empty";
         }
     }
 }

@@ -13,5 +13,6 @@ namespace InfinityZombies.Domain
         public Task JoinExistingMatch();
 
         public Task ExitCurrentMatch();
+        Task RetryCurrentMatch();
     }
 }

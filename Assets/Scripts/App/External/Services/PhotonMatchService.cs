@@ -27,6 +27,7 @@ namespace InfinityZombies.External
         {
             return StartGame(GameMode.Client);
         }
+
         async Task StartGame(GameMode mode)
         {
             if (runner != null)
@@ -51,6 +52,12 @@ namespace InfinityZombies.External
 
             await Task.Delay(200);
             //await sceneController.ChangePage(Constants.Pages.Game);
+        }
+
+        public Task RetryCurrentMatch()
+        {
+            //TODO só passar as mesmas configurações
+            return StartGame(GameMode.AutoHostOrClient);
         }
 
         void LeaveSession()
@@ -92,6 +99,5 @@ namespace InfinityZombies.External
         public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
 
         public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
-
     }
 }
