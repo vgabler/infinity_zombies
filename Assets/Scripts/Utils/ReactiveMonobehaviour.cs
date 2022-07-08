@@ -20,12 +20,19 @@ namespace Utils
             subscriptions.Add(observable.Subscribe(onValueChanged));
         }
 
-        protected virtual void OnDestroy()
+        protected virtual void Dispose()
         {
             foreach (var sub in subscriptions)
             {
                 sub.Dispose();
             }
+
+            subscriptions.Clear();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            Dispose();
         }
     }
 }

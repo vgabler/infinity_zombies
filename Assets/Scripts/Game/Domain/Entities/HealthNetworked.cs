@@ -6,6 +6,7 @@ namespace Game.Domain
 {
     public interface IHealth
     {
+        public IReadOnlyReactiveProperty<int> MaxHealth { get; }
         public IReadOnlyReactiveProperty<int> Health { get; }
 
         public IReadOnlyReactiveProperty<bool> IsDead { get; }
@@ -13,15 +14,18 @@ namespace Game.Domain
 
     public class HealthNetworked : NetworkBehaviour, IHealth, ITakesDamage
     {
-        public int maxHealth = 3;
-        [Networked(OnChanged = nameof(OnHealthChanged))] int _health { get; set; }
+        public int startingMaxHealth = 3;
 
-        IReadOnlyReactiveProperty<int> IHealth.Health => healthProp;
+        [Networked(OnChanged = nameof(OnPropertyChanged))] int _maxHealth { get; set; }
+        [Networked(OnChanged = nameof(OnPropertyChanged))] int _health { get; set; }
 
-        IReadOnlyReactiveProperty<bool> IHealth.IsDead => isDeadProp;
+        public IReadOnlyReactiveProperty<int> Health => healthProp;
+        public IReadOnlyReactiveProperty<int> MaxHealth => maxHealthProp;
+        public IReadOnlyReactiveProperty<bool> IsDead => isDeadProp;
 
         readonly ReactiveProperty<bool> isDeadProp = new ReactiveProperty<bool>();
         readonly ReactiveProperty<int> healthProp = new ReactiveProperty<int>();
+        readonly ReactiveProperty<int> maxHealthProp = new ReactiveProperty<int>();
 
         public UnityEvent<int> onChanged;
         public UnityEvent onDeath;
@@ -33,7 +37,8 @@ namespace Game.Domain
                 return;
             };
 
-            _health = maxHealth;
+            _maxHealth = startingMaxHealth;
+            _health = _maxHealth;
         }
 
         public void TakeDamage(int damage)
@@ -46,17 +51,18 @@ namespace Game.Domain
             _health -= damage;
         }
 
-        static void OnHealthChanged(Changed<HealthNetworked> info)
+        static void OnPropertyChanged(Changed<HealthNetworked> info)
         {
-            info.Behaviour.OnHealthChanged(info.Behaviour._health);
+            info.Behaviour.OnHealthChanged();
         }
 
-        void OnHealthChanged(int health)
+        void OnHealthChanged()
         {
-            healthProp.Value = health;
-            onChanged?.Invoke(health);
+            maxHealthProp.Value = _maxHealth;
+            healthProp.Value = _health;
+            onChanged?.Invoke(_health);
 
-            isDeadProp.Value = health <= 0;
+            isDeadProp.Value = _health <= 0;
 
             if (isDeadProp.Value)
             {
@@ -68,6 +74,7 @@ namespace Game.Domain
         {
             isDeadProp.Dispose();
             healthProp.Dispose();
+            maxHealthProp.Dispose();
         }
     }
 }

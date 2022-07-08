@@ -26,7 +26,7 @@ namespace Game
 
         void OnDestroy()
         {
-            subscription.Dispose();
+            subscription?.Dispose();
         }
 
         void OnDeadChanged(bool isDead)

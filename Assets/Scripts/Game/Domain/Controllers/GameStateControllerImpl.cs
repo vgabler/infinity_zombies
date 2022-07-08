@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using Fusion;
 using System;
+using Zenject;
 
 namespace Game.Domain
 {
@@ -18,19 +17,27 @@ namespace Game.Domain
         [SerializeField] private float _endDelay = 4.0f;
         [SerializeField] private float _gameSessionLength = 180.0f;
 
-        public IReadOnlyReactiveProperty<IGameState> GameState => _gameState;
-        ReactiveProperty<IGameState> _gameState = new ReactiveProperty<IGameState>(new GameStateStarting(4));
+        public IReadOnlyReactiveProperty<IGameState> GameState => gameState;
+        ReactiveProperty<IGameState> gameState = new ReactiveProperty<IGameState>(new GameStateStarting(4));
 
         //Precisa sincronizar essas duas variáveis
         [Networked] private TickTimer _timer { get; set; }
         [Networked] private State _state { get; set; } = State.Starting;
+
+        IEntityManager<PlayerEntity> entityManager;
+
+        [Inject]
+        public void Setup(IEntityManager<PlayerEntity> entityManager)
+        {
+            this.entityManager = entityManager;
+        }
 
         public override void Spawned()
         {
             // Inicializar o estado do jogo somente no host
             if (Object.HasStateAuthority == false) return;
 
-            _gameState.Value = new GameStateStarting((int)_startDelay);
+            gameState.Value = new GameStateStarting((int)_startDelay);
             _state = State.Starting;
             _timer = TickTimer.CreateFromSeconds(Runner, _startDelay);
         }
@@ -54,7 +61,7 @@ namespace Game.Domain
         void UpdateStarting()
         {
             //Atualiza a propriedade para notificar
-            _gameState.Value = new GameStateStarting(_timer.RemainingTime(Runner) ?? 0);
+            gameState.Value = new GameStateStarting(_timer.RemainingTime(Runner) ?? 0);
 
             //TODO verificar se tem jogadores vivos
 
@@ -68,19 +75,39 @@ namespace Game.Domain
         void UpdateRunning()
         {
             //Atualiza a propriedade para notificar
-            _gameState.Value = new GameStateRunning(_timer.RemainingTime(Runner) ?? 0);
+            gameState.Value = new GameStateRunning(_timer.RemainingTime(Runner) ?? 0);
 
             if (Object.HasStateAuthority == false) return;
-            if (!_timer.ExpiredOrNotRunning(Runner)) return;
+            if (_timer.ExpiredOrNotRunning(Runner) == false && IsAnyPlayerAlive()) return;
 
             EndGame();
         }
 
+        //TODO isso pode ser reativo; fazer um react na lista, e depois react em cada propriedade IHealth
+        bool IsAnyPlayerAlive()
+        {
+            //Verificar se todos os jogadores estão vivos
+
+            foreach (var c in entityManager.Entities)
+            {
+                var health = c.Context.Container.Resolve<IHealth>();
+
+                if (health == null || health.IsDead.Value == true)
+                {
+                    continue;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         void UpdateEnding()
         {
-            if (!(_gameState.Value is GameStateEnded))
+            if (!(gameState.Value is GameStateEnded))
             {
-                _gameState.Value = new GameStateEnded();
+                gameState.Value = new GameStateEnded();
             }
 
             if (Object.HasStateAuthority == false) return;
@@ -97,7 +124,7 @@ namespace Game.Domain
 
         public void Dispose()
         {
-            _gameState.Dispose();
+            gameState.Dispose();
         }
     }
 }

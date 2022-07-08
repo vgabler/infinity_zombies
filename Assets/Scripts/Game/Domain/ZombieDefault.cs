@@ -15,7 +15,7 @@ namespace Game
 
         NetworkCharacterControllerPrototype characterController;
 
-        IPlayerManager playerManager;
+        IEntityManager<PlayerEntity> playerEntityManager;
 
         IHealth health;
         IAttacker attacker;
@@ -23,10 +23,10 @@ namespace Game
         Transform currentTarget;
 
         [Inject]
-        public void Setup(NetworkCharacterControllerPrototype characterController, IHealth health, IPlayerManager playersController, IAttacker attacker)
+        public void Setup(NetworkCharacterControllerPrototype characterController, IHealth health, IEntityManager<PlayerEntity> playerEntityManager, IAttacker attacker)
         {
             this.characterController = characterController;
-            this.playerManager = playersController;
+            this.playerEntityManager = playerEntityManager;
             this.health = health;
             this.attacker = attacker;
         }
@@ -40,10 +40,10 @@ namespace Game
 
             //TODO isso pode ser uma classe própria "ITargeter"
             //Busca um alvo
-            foreach (var player in playerManager.Players)
+            foreach (var player in playerEntityManager.Entities)
             {
-                var playerTransform = player.Value.transform;
-                var playerHealth = player.Value.Container.Resolve<IHealth>();
+                var playerTransform = player.transform;
+                var playerHealth = player.Context.Container.Resolve<IHealth>();
 
                 if (playerHealth.IsDead.Value == true)
                 {

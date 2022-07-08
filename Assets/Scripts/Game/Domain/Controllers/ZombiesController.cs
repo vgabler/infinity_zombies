@@ -3,15 +3,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using UniRx;
 
 namespace Game.Domain
 {
-    public interface IZombiesController
-    {
-        public void ZombieDied(NetworkId id);
-    }
-
-    public class ZombiesController : SimulationBehaviour, IZombiesController
+    public class ZombiesController : SimulationBehaviour
     {
         enum State { NotStarted, WaitingWave, WaitingAction, WaitingEndOfWave, Finished }
 
@@ -30,12 +26,20 @@ namespace Game.Domain
         Wave CurrentWave => stage.waves[_currentWave];
         WaveAction CurrentAction => CurrentWave.actions[_currentAction];
 
+        IDisposable sub;
         [Inject]
-        public void Setup(IGameStateController gameStateController, StageDefinition stage)
+        public void Setup(IGameStateController gameStateController, IEntityManager<ZombieEntity> entityManager, StageDefinition stage)
         {
             this.gameStateController = gameStateController;
             this.stage = stage;
+            sub = entityManager.Entities.ObserveCountChanged().Subscribe((count) => _zombieCount = count);
         }
+
+        private void OnDestroy()
+        {
+            sub?.Dispose();
+        }
+
         public override void FixedUpdateNetwork()
         {
             if (Object.HasStateAuthority == false)
@@ -140,18 +144,6 @@ namespace Game.Domain
         {
             var position = GetRandomSpawnPosition();
             Runner.Spawn(CurrentWave.prefabs[index], position, inputAuthority: PlayerRef.None);
-            _zombieCount++;
-        }
-        public void ZombieDied(NetworkId id)
-        {
-            if (Object.HasStateAuthority == false)
-            {
-                return;
-            }
-
-            _zombieCount--;
-
-            Runner.Despawn(Runner.FindObject(id));
         }
 
         void EndGame()
