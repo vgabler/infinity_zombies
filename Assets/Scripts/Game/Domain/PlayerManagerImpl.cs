@@ -5,17 +5,25 @@ using Zenject;
 
 namespace Game.Domain
 {
-    public class PlayersController : SimulationBehaviour, ISpawned, IPlayerJoined, IPlayerLeft
+    public interface IPlayerManager
+    {
+        public IReadOnlyDictionary<int, GameObjectContext> Players { get; }
+    }
+
+    public class PlayerManagerImpl : SimulationBehaviour, ISpawned, IPlayerJoined, IPlayerLeft, IPlayerManager
     {
         [SerializeField] NetworkPrefabRef _playerPrefab;
-        public Dictionary<PlayerRef, NetworkObject> Characters { get; private set; } = new Dictionary<PlayerRef, NetworkObject>();
 
-        IGameStateController gameStateController;
+        IGameStateController _gameStateController;
+
+        public IReadOnlyDictionary<int, GameObjectContext> Players => _players;
+
+        readonly Dictionary<int, GameObjectContext> _players = new Dictionary<int, GameObjectContext>();
 
         [Inject]
         public void Setup(IGameStateController gameStateController)
         {
-            this.gameStateController = gameStateController;
+            _gameStateController = gameStateController;
         }
 
         /// <summary>
@@ -25,7 +33,7 @@ namespace Game.Domain
         {
             if (Object.HasStateAuthority == false) return;
 
-            // Collect all spawn points in the scene.
+            //TODO Collect all spawn points in the scene.
             //_spawnPoints = FindObjectsOfType<SpawnPoint>();
 
             foreach (var player in Runner.ActivePlayers)
@@ -38,7 +46,7 @@ namespace Game.Domain
         {
             base.FixedUpdateNetwork();
 
-            if (Object.HasStateAuthority == false || !(gameStateController.GameState.Value is GameStateRunning))
+            if (Object.HasStateAuthority == false || !(_gameStateController.GameState.Value is GameStateRunning))
             {
                 return;
             }
@@ -47,11 +55,11 @@ namespace Game.Domain
 
             var alive = 0;
 
-            foreach (var c in Characters.Values)
+            foreach (var c in _players.Values)
             {
-                var health = c.GetComponent<GameObjectContext>().Container.Resolve<IHealth>();
+                var health = c.Container.Resolve<IHealth>();
 
-                if (health == null || health.Health.Value <= 0)
+                if (health == null || health.IsDead.Value == true)
                 {
                     continue;
                 }
@@ -66,7 +74,7 @@ namespace Game.Domain
             }
 
             //TODO reason?
-            gameStateController.EndGame();
+            _gameStateController.EndGame();
         }
 
         public void PlayerJoined(PlayerRef player) { SpawnPlayer(player); }
@@ -79,8 +87,14 @@ namespace Game.Domain
         /// <param name="player"></param>
         private void SpawnPlayer(PlayerRef player)
         {
-            if (Object.HasStateAuthority == false || gameStateController.GameState.Value is GameStateEnded)
+            if (Object.HasStateAuthority == false || _gameStateController.GameState.Value is GameStateEnded)
             {
+                return;
+            }
+
+            if (Players.ContainsKey(player))
+            {
+                Debug.LogError("Tentando spawn um player que já existe!");
                 return;
             }
 
@@ -90,8 +104,8 @@ namespace Game.Domain
             var playerObj = Runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             Runner.SetPlayerObject(player, playerObj);
 
-            // Keep track of the player avatars so we can remove it when they disconnect
-            Characters.Add(player, playerObj);
+            //Sempre deve ter o mesmo indice nas duas listas
+            _players.Add(player, playerObj.GetComponentInChildren<GameObjectContext>());
         }
 
         /// <summary>
@@ -102,12 +116,11 @@ namespace Game.Domain
         {
             if (Object.HasStateAuthority == false) return;
 
-            if (Characters.TryGetValue(player, out var networkObject))
+            if (Runner.TryGetPlayerObject(player, out var networkObject))
             {
                 Runner.Despawn(networkObject);
-                Characters.Remove(player);
+                _players.Remove(player);
             }
         }
-
     }
 }

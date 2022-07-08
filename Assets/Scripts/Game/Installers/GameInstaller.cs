@@ -14,7 +14,7 @@ namespace Game
         {
             Container.BindInterfacesTo<GameStateControllerImpl>().FromComponentOn(gameStateController).AsSingle();
             Container.BindInterfacesTo<ZombiesController>().FromComponentOn(zombiesController).AsSingle();
-            Container.Bind<PlayersController>().FromComponentOn(playersController).AsSingle();
+            Container.Bind<IPlayerManager>().FromInstance(playersController.GetComponent<PlayerManagerImpl>()).AsSingle();
             Container.BindInstance(stage).AsSingle();
         }
     }

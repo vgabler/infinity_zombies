@@ -15,7 +15,7 @@ namespace Game
 
         NetworkCharacterControllerPrototype characterController;
 
-        PlayersController playersController;
+        IPlayerManager playerManager;
 
         IHealth health;
         IAttacker attacker;
@@ -23,10 +23,10 @@ namespace Game
         Transform currentTarget;
 
         [Inject]
-        public void Setup(NetworkCharacterControllerPrototype characterController, IHealth health, PlayersController playersController, IAttacker attacker)
+        public void Setup(NetworkCharacterControllerPrototype characterController, IHealth health, IPlayerManager playersController, IAttacker attacker)
         {
             this.characterController = characterController;
-            this.playersController = playersController;
+            this.playerManager = playersController;
             this.health = health;
             this.attacker = attacker;
         }
@@ -40,20 +40,31 @@ namespace Game
 
             //TODO isso pode ser uma classe própria "ITargeter"
             //Busca um alvo
-            foreach (var character in playersController.Characters.Values)
+            foreach (var player in playerManager.Players)
             {
+                var playerTransform = player.Value.transform;
+                var playerHealth = player.Value.Container.Resolve<IHealth>();
+
+                if (playerHealth.IsDead.Value == true)
+                {
+                    if (currentTarget == playerTransform)
+                    {
+                        currentTarget = null;
+                    }
+                    continue;
+                }
+
 
                 if (currentTarget == null ||
-                Vector3.Distance(character.transform.position, transform.position) <
+                Vector3.Distance(playerTransform.position, transform.position) <
                 Vector3.Distance(transform.position, currentTarget.position))
                 {
-                    currentTarget = character.transform;
+                    currentTarget = playerTransform;
                 }
             }
 
             if (currentTarget == null)
             {
-                Debug.LogWarning("Não tem player!");
                 return;
             }
 
