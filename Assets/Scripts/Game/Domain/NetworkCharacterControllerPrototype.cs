@@ -17,6 +17,7 @@ namespace Game
         public float braking = 10.0f;
         public float maxSpeed = 2.0f;
         public float rotationSpeed = 15.0f;
+        public bool followRotation = true;
 
         [Networked]
         [HideInInspector]
@@ -122,7 +123,8 @@ namespace Game
             else
             {
                 horizontalVel = Vector3.ClampMagnitude(horizontalVel + direction * acceleration * deltaTime, maxSpeed);
-                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Runner.DeltaTime);
+                if (followRotation)
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Runner.DeltaTime);
             }
 
             moveVelocity.x = horizontalVel.x;
