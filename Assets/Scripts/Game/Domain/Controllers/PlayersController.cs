@@ -8,7 +8,7 @@ namespace Game.Domain
     public class PlayersController : SimulationBehaviour, ISpawned, IPlayerJoined, IPlayerLeft
     {
         [SerializeField] NetworkPrefabRef _playerPrefab;
-       public Dictionary<PlayerRef, NetworkObject> Characters { get; private set; } = new Dictionary<PlayerRef, NetworkObject>();
+        public Dictionary<PlayerRef, NetworkObject> Characters { get; private set; } = new Dictionary<PlayerRef, NetworkObject>();
 
         IGameStateController gameStateController;
 
@@ -49,7 +49,7 @@ namespace Game.Domain
 
             foreach (var c in Characters.Values)
             {
-                var health = c.GetComponent<IHealth>();
+                var health = c.GetComponent<GameObjectContext>().Container.Resolve<IHealth>();
 
                 if (health == null || health.Health.Value <= 0)
                 {

@@ -1,7 +1,6 @@
 using Fusion;
 using Game.Domain;
 using UnityEngine;
-using Zenject;
 
 namespace Game
 {
@@ -13,7 +12,7 @@ namespace Game
         public float cooldown = 2;
         public int damage = 1;
         public LayerMask enemyLayer;
-        [Networked] TickTimer _timer { get; set; }
+        [Networked] TickTimer _cooldown { get; set; }
 
         public void Attack()
         {
@@ -27,13 +26,13 @@ namespace Game
                 return;
             }
 
-            if (!_timer.ExpiredOrNotRunning(Runner))
+            if (!_cooldown.ExpiredOrNotRunning(Runner))
             {
                 return;
             }
 
             //Ativa o cooldown
-            _timer = TickTimer.CreateFromSeconds(Runner, cooldown);
+            _cooldown = TickTimer.CreateFromSeconds(Runner, cooldown);
 
             var hitSomething = Runner.LagCompensation.Raycast(transform.position, direction, 2, Object.StateAuthority, out var hit, enemyLayer);
 
