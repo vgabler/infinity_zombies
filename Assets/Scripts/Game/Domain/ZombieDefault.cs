@@ -18,15 +18,17 @@ namespace Game
         PlayersController playersController;
 
         IHealth health;
+        IAttacker attacker;
 
         Transform currentTarget;
 
         [Inject]
-        public void Setup(NetworkCharacterControllerPrototype characterController, IHealth health, PlayersController playersController)
+        public void Setup(NetworkCharacterControllerPrototype characterController, IHealth health, PlayersController playersController, IAttacker attacker)
         {
             this.characterController = characterController;
             this.playersController = playersController;
             this.health = health;
+            this.attacker = attacker;
         }
 
         public override void FixedUpdateNetwork()
@@ -59,7 +61,7 @@ namespace Game
 
             if (diff.magnitude <= attackRange)
             {
-                Debug.Log("On attack range!");
+                attacker.Attack();
             }
             else
             {
