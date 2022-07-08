@@ -1,3 +1,4 @@
+using Fusion;
 using Game.Domain;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using Zenject;
 
 namespace Game.Presentation
 {
-    public class CharacterAnimationController : MonoBehaviour
+    public class CharacterAnimationController : NetworkBehaviour
     {
         Animator animator;
         NetworkCharacterControllerPrototype controller;
@@ -19,9 +20,10 @@ namespace Game.Presentation
             this.controller = controller;
             this.health = health;
         }
-        private void Update()
+
+        public override void FixedUpdateNetwork()
         {
-            if (health.IsDead.Value)
+            if (Object.HasStateAuthority == false || health.IsDead.Value || Runner.IsForward == false)
             {
                 return;
             }
@@ -29,6 +31,11 @@ namespace Game.Presentation
             var speed = controller.Velocity.magnitude / controller.maxSpeed;
 
             animator.SetFloat("Speed", speed);
+
+            if (GetInput(out PlayerNetworkInput input))
+            {
+                animator.SetBool("Shooting", input.Buttons.IsSet(PlayerButtons.Attack));
+            }
         }
     }
 }
