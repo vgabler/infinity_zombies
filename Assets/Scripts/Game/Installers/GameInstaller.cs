@@ -8,11 +8,13 @@ namespace Game
     {
         public GameObject gameStateController;
         public GameObject zombiesController;
+        public GameObject playersController;
         public StageDefinition stage;
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<GameStateControllerImpl>().FromComponentOn(gameStateController).AsSingle();
             Container.BindInterfacesTo<ZombiesController>().FromComponentOn(zombiesController).AsSingle();
+            Container.Bind<PlayersController>().FromComponentOn(playersController).AsSingle();
             Container.BindInstance(stage).AsSingle();
         }
     }

@@ -8,7 +8,7 @@ namespace Game.Domain
     public class PlayersController : SimulationBehaviour, ISpawned, IPlayerJoined, IPlayerLeft
     {
         [SerializeField] NetworkPrefabRef _playerPrefab;
-        readonly Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+       public Dictionary<PlayerRef, NetworkObject> Characters { get; private set; } = new Dictionary<PlayerRef, NetworkObject>();
 
         IGameStateController gameStateController;
 
@@ -47,7 +47,7 @@ namespace Game.Domain
 
             var alive = 0;
 
-            foreach (var c in _spawnedCharacters.Values)
+            foreach (var c in Characters.Values)
             {
                 var health = c.GetComponent<IHealth>();
 
@@ -91,7 +91,7 @@ namespace Game.Domain
             Runner.SetPlayerObject(player, playerObj);
 
             // Keep track of the player avatars so we can remove it when they disconnect
-            _spawnedCharacters.Add(player, playerObj);
+            Characters.Add(player, playerObj);
         }
 
         /// <summary>
@@ -102,10 +102,10 @@ namespace Game.Domain
         {
             if (Object.HasStateAuthority == false) return;
 
-            if (_spawnedCharacters.TryGetValue(player, out var networkObject))
+            if (Characters.TryGetValue(player, out var networkObject))
             {
                 Runner.Despawn(networkObject);
-                _spawnedCharacters.Remove(player);
+                Characters.Remove(player);
             }
         }
 

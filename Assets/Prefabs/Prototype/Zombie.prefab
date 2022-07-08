@@ -49,6 +49,52 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Root: {fileID: 8129230150480756717}
   GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!1 &1980377929971747607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6780526786825025314}
+  - component: {fileID: 1544504755835468719}
+  m_Layer: 6
+  m_Name: Zombie Default
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6780526786825025314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980377929971747607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4620741655458467528}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1544504755835468719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980377929971747607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03cdf7ed97e203546a5b6e814adb9968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  attackRange: 2
+  speed: 2
 --- !u!1 &2253738522303431292
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,6 +163,7 @@ MonoBehaviour:
   - {fileID: 8083228981673711294}
   - {fileID: 8087788134830200012}
   - {fileID: 9064690784616467529}
+  - {fileID: 1544504755835468719}
   SimulationBehaviours: []
 --- !u!143 &5220936469433256658
 CharacterController:
@@ -392,7 +439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4169705846845534115
 Transform:
   m_ObjectHideFlags: 0
@@ -452,6 +499,7 @@ Transform:
   - {fileID: 7339000986052963168}
   - {fileID: 4169705846845534115}
   - {fileID: 4705087752981409375}
+  - {fileID: 6780526786825025314}
   m_Father: {fileID: 2253738522303431295}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

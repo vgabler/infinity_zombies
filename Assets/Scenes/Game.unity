@@ -469,6 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStateController: {fileID: 991110991}
   zombiesController: {fileID: 2143025840}
+  playersController: {fileID: 2061840759}
   stage: {fileID: 11400000, guid: 74643fed89deaf34e926694c9e3b5ba7, type: 2}
 --- !u!1 &494663995
 GameObject:
