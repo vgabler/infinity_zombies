@@ -24,6 +24,11 @@ namespace Auth.Infra
             throw new System.NotImplementedException();
         }
 
+        public Task<UserInfo> SignInWithFacebook()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task SignOut()
         {
             throw new System.NotImplementedException();

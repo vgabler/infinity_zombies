@@ -8,5 +8,6 @@ namespace Auth.Domain
         Task<UserInfo> SignIn(string email, string password);
         Task<UserInfo> SignUp(string email, string password, string nickname);
         Task SignOut();
+        Task<UserInfo> SignInWithFacebook();
     }
 }

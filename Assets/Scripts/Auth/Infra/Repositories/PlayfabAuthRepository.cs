@@ -18,9 +18,10 @@ namespace Auth.Infra
 
         UserInfo currentUser;
         ILocalStorage localStorage;
-
-        public PlayfabAuthRepository(ILocalStorage localStorage)
+        IFacebookService facebookService;
+        public PlayfabAuthRepository(ILocalStorage localStorage, IFacebookService facebookService)
         {
+            this.facebookService = facebookService;
             this.localStorage = localStorage;
             //Precisa disso se não falha tudo...
             PlayFabSettings.TitleId = "25392";
@@ -163,6 +164,52 @@ namespace Auth.Infra
             return ClearPersistID();
         }
 
+        public async Task<UserInfo> SignInWithFacebook()
+        {
+            var token = await facebookService.GetSignInToken();
+
+            if (token == null)
+            {
+                return currentUser = null;
+            }
+
+            var tcs = new TaskCompletionSource<LoginResult>();
+            await UnityMainThreadDispatcher.Instance().EnqueueAsync(() =>
+            {
+                try
+                {
+                    PlayFabClientAPI.LoginWithFacebook(
+                        new LoginWithFacebookRequest { AccessToken = token },
+                        (r) => tcs.SetResult(r),
+                        (error) =>
+                        {
+                            Debug.LogError(error);
+                            tcs.SetResult(null);
+                            //TODO retornar esse erro
+                        }
+                    );
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                    //tcs.SetException(e);
+                    tcs.SetResult(null);
+                }
+            });
+
+            var result = await tcs.Task;
+
+            //Se falhou, já retorna nulo
+            if (result == null)
+            {
+                return currentUser = null;
+            }
+
+            //Se teve sucesso, salva um novo persist id e busca os dados (nickname)
+            await SavePersistId();
+            return await GetUserData(result.PlayFabId);
+        }
+
         public async Task<UserInfo> SignIn(string email, string password)
         {
             var tcs = new TaskCompletionSource<LoginResult>();
@@ -205,7 +252,6 @@ namespace Auth.Infra
             await SavePersistId();
             return await GetUserData(result.PlayFabId);
         }
-
 
         public async Task<UserInfo> SignUp(string email, string password, string nickname)
         {

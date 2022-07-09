@@ -33,6 +33,7 @@ namespace App
 
             //--- Domain --- Usecases
             Container.Bind<IGetCurrentUser>().To<GetCurrentUserImpl>().AsTransient();
+            Container.Bind<ISignInWithFacebook>().To<SignInWithFacebookImpl>().AsTransient();
             Container.Bind<ISignIn>().To<SignInImpl>().AsTransient();
             Container.Bind<ISignUp>().To<SignUpImpl>().AsTransient();
             Container.Bind<ISignOut>().To<SignOutImpl>().AsTransient();
@@ -42,6 +43,9 @@ namespace App
 
             //--- External --- Datasources
             Container.Bind<ILocalStorage>().To<PlayerPrefsLocalStorage>().AsSingle().Lazy();
+
+            //--- External --- Datasources
+            Container.Bind<IFacebookService>().To<FacebookServiceImpl>().AsSingle();
         }
     }
 }
