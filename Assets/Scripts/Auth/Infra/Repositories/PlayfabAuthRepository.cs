@@ -2,6 +2,7 @@ using Auth.Domain;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace Auth.Infra
         //As chamadas do playfab precisam ser na main thread..
         static readonly string PERSIST_ID_KEY = "REMEMBER_ME_ID";
 
+        static readonly string DATA_KEY_NICKNAME = "NICKNAME";
+
         UserInfo currentUser;
         ILocalStorage localStorage;
 
@@ -21,6 +24,83 @@ namespace Auth.Infra
             this.localStorage = localStorage;
             //Precisa disso se não falha tudo...
             PlayFabSettings.TitleId = "25392";
+        }
+
+        async Task<UserInfo> GetUserData(string playFabId)
+        {
+            var tcs = new TaskCompletionSource<GetUserDataResult>();
+            await UnityMainThreadDispatcher.Instance().EnqueueAsync(() =>
+            {
+                try
+                {
+                    PlayFabClientAPI.GetUserData(
+                        new GetUserDataRequest
+                        {
+                            Keys = new List<string> { DATA_KEY_NICKNAME },
+                            PlayFabId = playFabId
+                        },
+                        (r) =>
+                        {
+                            tcs.SetResult(r);
+                        },
+                        (error) =>
+                        {
+                            Debug.LogError(error);
+                            //TODO retornar esse erro
+                            tcs.SetResult(null);
+                        }
+                    );
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                    //tcs.TrySetException(e);
+                    tcs.SetResult(null);
+                }
+            });
+
+            var result = await tcs.Task;
+
+            //Se não encontrar os dados, retorna a interrogação
+            var nickname = result?.Data[DATA_KEY_NICKNAME].Value ?? "???";
+
+            return new UserInfo { Id = playFabId, Nickname = nickname };
+        }
+        async Task<UserInfo> SetUserNickname(string playFabId, string nickname)
+        {
+            var tcs = new TaskCompletionSource<UpdateUserDataResult>();
+            await UnityMainThreadDispatcher.Instance().EnqueueAsync(() =>
+            {
+                try
+                {
+                    PlayFabClientAPI.UpdateUserData(
+                        new UpdateUserDataRequest
+                        {
+                            Data = new Dictionary<string, string>
+                            {
+                                { DATA_KEY_NICKNAME, nickname }
+                            }
+                        },
+                        (r) => tcs.SetResult(r),
+                        (error) =>
+                        {
+                            Debug.LogError(error);
+                            //TODO retornar esse erro
+                            tcs.SetResult(null);
+                        }
+                    );
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                    //tcs.TrySetException(e);
+                    tcs.SetResult(null);
+                }
+            });
+
+            var result = await tcs.Task;
+
+            return new UserInfo { Id = playFabId, Nickname = nickname };
         }
 
         public async Task<UserInfo> GetCurrentUser()
@@ -47,12 +127,12 @@ namespace Auth.Infra
                 {
                     PlayFabClientAPI.LoginWithCustomID(
                         new LoginWithCustomIDRequest { CustomId = persistId },
-                        (r) => tcs.TrySetResult(r),
+                        (r) => tcs.SetResult(r),
                         (error) =>
                         {
                             Debug.LogError(error);
                             //TODO retornar esse erro
-                            tcs.TrySetCanceled();
+                            tcs.SetResult(null);
                         }
                     );
                 }
@@ -70,10 +150,17 @@ namespace Auth.Infra
             {
                 //Se falhou, o persist ID é inválido
                 await ClearPersistID();
-                return UpdateCurrentUser();
+                return currentUser = null;
             }
 
-            return UpdateCurrentUser(result.PlayFabId, (string)result.CustomData);
+            return await GetUserData(result.PlayFabId);
+        }
+
+        public Task SignOut()
+        {
+            currentUser = null;
+            //No sign out, só precisa limpar o persist
+            return ClearPersistID();
         }
 
         public async Task<UserInfo> SignIn(string email, string password)
@@ -108,20 +195,17 @@ namespace Auth.Infra
 
             var result = await tcs.Task;
 
+            //Se falhou, já retorna nulo
             if (result == null)
             {
-                return UpdateCurrentUser();
+                return currentUser = null;
             }
 
-            //Se teve sucesso, salva um novo persist id
+            //Se teve sucesso, salva um novo persist id e busca os dados (nickname)
             await SavePersistId();
-            return UpdateCurrentUser(result.PlayFabId, (string)result.CustomData);
+            return await GetUserData(result.PlayFabId);
         }
 
-        public Task SignOut()
-        {
-            return ClearPersistID();
-        }
 
         public async Task<UserInfo> SignUp(string email, string password, string nickname)
         {
@@ -161,24 +245,12 @@ namespace Auth.Infra
 
             if (result == null)
             {
-                return UpdateCurrentUser();
-            }
-
-            //Se teve sucesso, salva um novo persist id
-            await SavePersistId();
-            return UpdateCurrentUser(result.PlayFabId, (string)result.CustomData);
-        }
-
-        UserInfo UpdateCurrentUser(string id = null, string nickname = null)
-        {
-            if (id == null)
-            {
                 return currentUser = null;
             }
-            else
-            {
-                return currentUser = new UserInfo { Id = id, Nickname = nickname };
-            }
+
+            //Se teve sucesso, salva um novo persist id e salva o nickname
+            await SavePersistId();
+            return await SetUserNickname(result.PlayFabId, nickname);
         }
 
         async Task ClearPersistID()
