@@ -46,7 +46,7 @@ namespace App.Presentation
 
         void OnUserChanged(UserInfo user)
         {
-            welcomeText.text = $"Bem vindo, {user?.Nickname}!";
+            welcomeText.text = $"Logged as:\n{user?.Nickname}";
         }
 
         private async void OnStartNewGame(Unit obj)
