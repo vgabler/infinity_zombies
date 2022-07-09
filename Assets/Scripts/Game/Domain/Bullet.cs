@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Fusion;
 using Game.Domain;
 using UnityEngine;
 using Zenject;
 
-namespace InfinityZombies.Prototype
+namespace Game
 {
     public class Bullet : NetworkBehaviour
     {

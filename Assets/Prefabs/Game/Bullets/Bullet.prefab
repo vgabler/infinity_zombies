@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4406386859104448291}
   - component: {fileID: 3152858384216793046}
   - component: {fileID: 7119990206058710007}
-  - component: {fileID: 6094749965743688696}
+  - component: {fileID: 6766625803034294376}
   m_Layer: 3
   m_Name: Bullet
   m_TagString: Bullet
@@ -105,7 +105,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 7119990206058710007}
-  - {fileID: 6094749965743688696}
+  - {fileID: 6766625803034294376}
   SimulationBehaviours: []
 --- !u!114 &7119990206058710007
 MonoBehaviour:
@@ -133,7 +133,7 @@ MonoBehaviour:
     RotBlendStart: 0.1
     RotBlendEnd: 0.5
     RotTeleportRadians: 1.5
---- !u!114 &6094749965743688696
+--- !u!114 &6766625803034294376
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4406386859099165751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd5d1a06555d95d4881a5f6125f2d0db, type: 3}
+  m_Script: {fileID: 11500000, guid: fec441bbfb1bde548a0255dd011d6dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
