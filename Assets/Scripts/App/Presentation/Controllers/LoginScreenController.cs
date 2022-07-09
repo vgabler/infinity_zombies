@@ -9,28 +9,26 @@ using Zenject;
 
 namespace InfinityZombies.Presentation
 {
-    public class RegisterScreenController : ReactiveMonoBehaviour
+    public class LoginScreenController : ReactiveMonoBehaviour
     {
         ISceneController sceneController;
         IAuthController authController;
-        ISignUp signUp;
+        ISignIn signIn;
 
-        public InputField nicknameField;
         public InputField emailField;
         public InputField passwordField;
         public Button submitBtn;
         public GameObject loadingIndicator;
 
-        bool FormValid => !string.IsNullOrEmpty(emailField.text) && !string.IsNullOrEmpty(passwordField.text) && !string.IsNullOrEmpty(nicknameField.text);
+        bool FormValid => !string.IsNullOrEmpty(emailField.text) && !string.IsNullOrEmpty(passwordField.text);
 
         [Inject]
-        public void Setup(IAuthController authController, ISceneController sceneController, ISignUp signUp)
+        public void Setup(IAuthController authController, ISceneController sceneController, ISignIn signIn)
         {
             this.sceneController = sceneController;
             this.authController = authController;
-            this.signUp = signUp;
+            this.signIn = signIn;
 
-            SubscribePropertyUpdateNow(nicknameField.OnValueChangedAsObservable().Throttle(TimeSpan.FromMilliseconds(300)).ToReactiveProperty(), OnFieldsChanged);
             SubscribePropertyUpdateNow(emailField.OnValueChangedAsObservable().Throttle(TimeSpan.FromMilliseconds(300)).ToReactiveProperty(), OnFieldsChanged);
             SubscribePropertyUpdateNow(passwordField.OnValueChangedAsObservable().Throttle(TimeSpan.FromMilliseconds(300)).ToReactiveProperty(), OnFieldsChanged);
 
@@ -53,7 +51,7 @@ namespace InfinityZombies.Presentation
             submitBtn.interactable = false;
             loadingIndicator.SetActive(true);
 
-            var result = await Task.Run(() => signUp.Invoke(emailField.text, passwordField.text, nicknameField.text));
+            var result = await Task.Run(() => signIn.Invoke(emailField.text, passwordField.text));
 
             loadingIndicator.SetActive(false);
             submitBtn.interactable = true;

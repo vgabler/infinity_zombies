@@ -31,13 +31,6 @@ namespace InfinityZombies
             //--- Domain --- Controllers
             Container.BindInterfacesTo<AuthControllerImpl>().AsSingle();
 
-            //Container.Bind<IAuthRepository>().FromMethod(
-            //    () => new MockAuthRepository(
-            //        string.IsNullOrEmpty(testUserNickname) ? null :
-            //        new UserInfo() { Nickname = testUserNickname, Id = $"{testUserNickname}-{testSplashDelay}" },
-            //        testSplashDelay
-            //    )
-            //).AsSingle();
             //--- Domain --- Usecases
             Container.Bind<IGetCurrentUser>().To<GetCurrentUserImpl>().AsTransient();
             Container.Bind<ISignIn>().To<SignInImpl>().AsTransient();
@@ -46,7 +39,6 @@ namespace InfinityZombies
 
             //--- Infra --- Repositories
             Container.Bind<IAuthRepository>().To<PlayfabAuthRepository>().AsSingle();
-            //Container.Bind<IAuthRepository>().FromMethod(() => GetComponentInChildren<PlayfabAuthRepository>()).AsSingle();
 
             //--- External --- Datasources
             Container.Bind<ILocalStorage>().To<PlayerPrefsLocalStorage>().AsSingle().Lazy();
