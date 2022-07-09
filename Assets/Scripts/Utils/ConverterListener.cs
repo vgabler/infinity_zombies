@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GablerGames.Core.Converters
+namespace Utils
 {
     public class ConverterListener : MonoBehaviour
     {
