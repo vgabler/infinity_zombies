@@ -12,8 +12,10 @@ namespace Game
         {
             if (GetInput(out PlayerNetworkInput data))
             {
+                var dir = new Vector3(data.HorizontalFire, 0, data.VerticalFire).normalized;
                 //TODO deveria pegar o transform por injection
-                transform.forward = new Vector3(data.HorizontalFire, 0, data.VerticalFire).normalized;
+                if (dir != Vector3.zero)
+                    transform.forward = dir;
             }
         }
     }

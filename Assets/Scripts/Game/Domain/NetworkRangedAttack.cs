@@ -18,7 +18,7 @@ namespace Game
 
         public void Attack(Vector3 direction)
         {
-            if (Object.HasInputAuthority == false || _shootCooldown.ExpiredOrNotRunning(Runner) == false)
+            if (_shootCooldown.ExpiredOrNotRunning(Runner) == false)
             {
                 return;
             }

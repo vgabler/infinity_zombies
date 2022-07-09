@@ -1,7 +1,5 @@
 using Fusion;
 using Game.Domain;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -23,7 +21,7 @@ namespace Game.Presentation
 
         public override void FixedUpdateNetwork()
         {
-            if (Object.HasStateAuthority == false || health.IsDead.Value || Runner.IsForward == false)
+            if (health.IsDead.Value)
             {
                 return;
             }
@@ -31,6 +29,11 @@ namespace Game.Presentation
             var speed = controller.Velocity.magnitude / controller.maxSpeed;
 
             animator.SetFloat("Speed", speed);
+
+            if (Runner.IsForward == false)
+            {
+                return;
+            }
 
             if (GetInput(out PlayerNetworkInput input))
             {
