@@ -26,10 +26,84 @@ MonoBehaviour:
       spawns: 00000000
     - actionDelay: 0
       spawns: 000000000000000000000000
+    - actionDelay: 0
+      spawns: 0000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 000000000000000000000000000000000000000000000000
   - waveDelay: 0
     defaultActionDelay: 2
     prefabs:
     - {fileID: 4687991490023401759, guid: 9e104560873e2b94983b375a4997a81d, type: 3}
     actions:
     - actionDelay: 0
-      spawns: 0000000000000000000000000000000000000000
+      spawns: 000000000000000000000000
+    - actionDelay: 0
+      spawns: 000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+  - waveDelay: 0
+    defaultActionDelay: 2
+    prefabs:
+    - {fileID: 4687991490023401759, guid: 9e104560873e2b94983b375a4997a81d, type: 3}
+    actions:
+    - actionDelay: 0
+      spawns: 000000000000000000000000
+    - actionDelay: 0
+      spawns: 000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+  - waveDelay: 0
+    defaultActionDelay: 1
+    prefabs:
+    - {fileID: 4687991490023401759, guid: 9e104560873e2b94983b375a4997a81d, type: 3}
+    actions:
+    - actionDelay: 0
+      spawns: 000000000000000000000000
+    - actionDelay: 0
+      spawns: 000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
+    - actionDelay: 0
+      spawns: 00000000000000000000000000000000
