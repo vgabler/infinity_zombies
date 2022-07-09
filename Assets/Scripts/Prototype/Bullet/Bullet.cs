@@ -13,7 +13,7 @@ namespace InfinityZombies.Prototype
         // The settings
         [SerializeField] private float _maxLifetime = 3.0f;
         [SerializeField] private float _speed = 200.0f;
-        [SerializeField] private LayerMask _zombieLayer;
+        [SerializeField] private LayerMask _enemyLayer;
 
         // The direction in which the bullet travels.
         [Networked] private Vector3 _direction { get; set; }
@@ -59,7 +59,7 @@ namespace InfinityZombies.Prototype
         private bool HitSomething()
         {
             var hitSomething = Runner.LagCompensation.Raycast(transform.position, _direction, _speed * Runner.DeltaTime,
-                Object.InputAuthority, out var hit, _zombieLayer);
+                Object.InputAuthority, out var hit, _enemyLayer);
 
             if (hitSomething == false) return false;
 
