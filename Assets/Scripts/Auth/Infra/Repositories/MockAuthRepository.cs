@@ -18,5 +18,20 @@ namespace Auth.Infra
             await Task.Delay(milisecondDelay);
             return mockUserInfo;
         }
+
+        public Task<UserInfo> SignIn(string email, string password)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task SignOut()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<UserInfo> SignUp(string email, string password, string nickname)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

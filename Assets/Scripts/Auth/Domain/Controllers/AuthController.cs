@@ -1,6 +1,6 @@
 using System;
+using System.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 using Zenject;
 
 namespace Auth.Domain
@@ -16,7 +16,6 @@ namespace Auth.Domain
     {
         public IReadOnlyReactiveProperty<bool> Initialized => _initialized;
         public IReadOnlyReactiveProperty<UserInfo> CurrentUser => _currentUser;
-
 
         readonly ReactiveProperty<UserInfo> _currentUser;
 
@@ -41,10 +40,22 @@ namespace Auth.Domain
             _initialized.Dispose();
         }
 
-        public async void Initialize()
+        public void Initialize()
         {
-            _currentUser.Value = await getCurrentUser.Invoke();
-            _initialized.Value = true;
+            //Inicializa em background
+            Task.Run(Initialization);
+        }
+
+        public async Task Initialization()
+        {
+            var result = await getCurrentUser.Invoke();
+
+            //Pra atualizar as variáveis precisa ser no main thread
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                _currentUser.Value = result;
+                _initialized.Value = true;
+            });
         }
     }
 }

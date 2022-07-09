@@ -2,7 +2,9 @@
     "name": "Auth",
     "rootNamespace": "",
     "references": [
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:0da6d172d18a54e4389d0dce1e1ffdf2",
+        "GUID:31d41b2bafa5d9944853f709d4c8d676"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

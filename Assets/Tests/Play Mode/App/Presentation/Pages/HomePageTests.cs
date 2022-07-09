@@ -17,6 +17,7 @@ public class HomePageTests
     Mock<ISceneController> sceneControllerMock;
     Mock<IStartNewMatch> newGameMock;
     Mock<IJoinExistingMatch> joinGameMock;
+    Mock<ISignOut> signOutMock;
 
     ReactiveProperty<UserInfo> currentUser;
     ReactiveProperty<bool> initialized;
@@ -30,6 +31,7 @@ public class HomePageTests
     {
         newGameMock = new Mock<IStartNewMatch>();
         joinGameMock = new Mock<IJoinExistingMatch>();
+        signOutMock = new Mock<ISignOut>();
 
         sceneControllerMock = new Mock<ISceneController>();
         sceneControllerMock.Setup((c) => c.ChangePage(It.IsAny<string>()))
@@ -55,7 +57,7 @@ public class HomePageTests
     {
         var prefab = AssetDatabase.LoadAssetAtPath<HomePageController>("Assets/Prefabs/App/Presentation/Pages/HomePage.prefab");
         controller = GameObject.Instantiate(prefab).GetComponent<HomePageController>();
-        controller.Setup(authControllerMock.Object, sceneControllerMock.Object, newGameMock.Object, joinGameMock.Object);
+        controller.Setup(authControllerMock.Object, sceneControllerMock.Object, newGameMock.Object, joinGameMock.Object, signOutMock.Object);
     }
     [TearDown]
     public void TearDown()
@@ -79,6 +81,7 @@ public class HomePageTests
     public void Should_logout()
     {
         controller.logoutButton.onClick.Invoke();
+        signOutMock.Verify((m) => m.Invoke());
         sceneControllerMock.Verify((m) => m.ChangePage(Constants.Pages.Login));
     }
 

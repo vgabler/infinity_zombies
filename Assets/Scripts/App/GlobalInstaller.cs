@@ -3,10 +3,9 @@ using Auth.Infra;
 using UnityEngine.EventSystems;
 using Zenject;
 using InfinityZombies.Presentation;
-using Fusion;
 using InfinityZombies.Domain;
 using InfinityZombies.External;
-using UnityEngine;
+using Auth.External;
 
 namespace InfinityZombies
 {
@@ -27,19 +26,30 @@ namespace InfinityZombies
             //Game
             Container.Bind<IMatchService>().To<PhotonMatchService>().AsSingle().Lazy();
 
-            //Auth
             //TODO criar um installer dentro do módulo Auth?
+            //Auth
+            //--- Domain --- Controllers
             Container.BindInterfacesTo<AuthControllerImpl>().AsSingle();
-            Container.Bind<IGetCurrentUser>().To<GetCurrentUserImpl>().AsSingle();
 
-            Container.Bind<IAuthRepository>().FromMethod(
-                () => new MockAuthRepository(
-                    string.IsNullOrEmpty(testUserNickname) ? null :
-                    new UserInfo() { Nickname = testUserNickname, Id = $"{testUserNickname}-{testSplashDelay}" },
-                    testSplashDelay
-                )
-            ).AsSingle();
+            //Container.Bind<IAuthRepository>().FromMethod(
+            //    () => new MockAuthRepository(
+            //        string.IsNullOrEmpty(testUserNickname) ? null :
+            //        new UserInfo() { Nickname = testUserNickname, Id = $"{testUserNickname}-{testSplashDelay}" },
+            //        testSplashDelay
+            //    )
+            //).AsSingle();
+            //--- Domain --- Usecases
+            Container.Bind<IGetCurrentUser>().To<GetCurrentUserImpl>().AsTransient();
+            Container.Bind<ISignIn>().To<SignInImpl>().AsTransient();
+            Container.Bind<ISignUp>().To<SignUpImpl>().AsTransient();
+            Container.Bind<ISignOut>().To<SignOutImpl>().AsTransient();
 
+            //--- Infra --- Repositories
+            Container.Bind<IAuthRepository>().To<PlayfabAuthRepository>().AsSingle();
+            //Container.Bind<IAuthRepository>().FromMethod(() => GetComponentInChildren<PlayfabAuthRepository>()).AsSingle();
+
+            //--- External --- Datasources
+            Container.Bind<ILocalStorage>().To<PlayerPrefsLocalStorage>().AsSingle().Lazy();
         }
     }
 }

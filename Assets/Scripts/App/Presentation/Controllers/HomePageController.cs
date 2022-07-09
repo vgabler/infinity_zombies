@@ -1,5 +1,6 @@
 using Auth.Domain;
 using InfinityZombies.Domain;
+using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ namespace InfinityZombies.Presentation
     {
         public IAuthController authController;
         public ISceneController sceneController;
+        public ISignOut signOut;
 
         public Text welcomeText;
         public Button logoutButton;
@@ -23,8 +25,9 @@ namespace InfinityZombies.Presentation
         IJoinExistingMatch joinExistingGame;
 
         [Inject]
-        public void Setup(IAuthController authController, ISceneController sceneController, IStartNewMatch startNewGame, IJoinExistingMatch joinExistingGame)
+        public void Setup(IAuthController authController, ISceneController sceneController, IStartNewMatch startNewGame, IJoinExistingMatch joinExistingGame, ISignOut signOut)
         {
+            this.signOut = signOut;
             this.authController = authController;
             this.sceneController = sceneController;
             this.startNewGame = startNewGame;
@@ -61,13 +64,14 @@ namespace InfinityZombies.Presentation
             //loadingIndicator.SetActive(false);
         }
 
-        private void OnLogout(Unit obj)
+        private async void OnLogout(Unit obj)
         {
-            //TODO logout usecase
+            loadingIndicator.SetActive(true);
+            await Task.Run(() => signOut.Invoke());
             authController.UserChanged(null);
 
             //TODO deveria sair dessa página automaticamente?
-            sceneController.ChangePage(Constants.Pages.Login);
+            await sceneController.ChangePage(Constants.Pages.Login);
         }
     }
 }
