@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace InfinityZombies.Domain
+namespace App.Domain
 {
     public interface IStartNewMatch
     {

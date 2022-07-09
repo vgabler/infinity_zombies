@@ -1,4 +1,4 @@
-namespace InfinityZombies
+namespace App
 {
     public static class Constants
     {

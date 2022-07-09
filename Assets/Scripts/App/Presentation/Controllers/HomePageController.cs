@@ -1,5 +1,5 @@
 using Auth.Domain;
-using InfinityZombies.Domain;
+using App.Domain;
 using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Utils;
 using Zenject;
 
-namespace InfinityZombies.Presentation
+namespace App.Presentation
 {
     public class HomePageController : ReactiveMonoBehaviour
     {

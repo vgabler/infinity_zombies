@@ -1,7 +1,7 @@
-using InfinityZombies.Domain;
+using App.Domain;
 using Zenject;
 
-namespace InfinityZombies
+namespace App
 {
     public class GamePageInstaller : MonoInstaller
     {

@@ -1,4 +1,4 @@
-using InfinityZombies.Domain;
+using App.Domain;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Utils;
 using Zenject;
 
-namespace InfinityZombies.Presentation
+namespace App.Presentation
 {
     public class GamePageController : ReactiveMonoBehaviour
     {

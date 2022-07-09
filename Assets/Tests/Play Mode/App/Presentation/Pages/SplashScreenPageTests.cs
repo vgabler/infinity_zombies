@@ -1,6 +1,6 @@
 using Auth.Domain;
-using InfinityZombies;
-using InfinityZombies.Presentation;
+using App;
+using App.Presentation;
 using Moq;
 using NUnit.Framework;
 using System.Collections;

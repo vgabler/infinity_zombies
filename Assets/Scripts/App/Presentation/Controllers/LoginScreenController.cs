@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Utils;
 using Zenject;
 
-namespace InfinityZombies.Presentation
+namespace App.Presentation
 {
     public class LoginScreenController : ReactiveMonoBehaviour
     {

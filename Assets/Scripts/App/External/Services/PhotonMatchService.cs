@@ -1,12 +1,12 @@
 ﻿using Fusion;
 using Fusion.Sockets;
-using InfinityZombies.Domain;
+using App.Domain;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace InfinityZombies.External
+namespace App.External
 {
     public class PhotonMatchService : IMatchService, INetworkRunnerCallbacks
     {

@@ -5,7 +5,7 @@ using UniRx;
 using Zenject;
 using Auth.Domain;
 
-namespace InfinityZombies.Presentation
+namespace App.Presentation
 {
     public class SplashScreenPageController : MonoBehaviour
     {

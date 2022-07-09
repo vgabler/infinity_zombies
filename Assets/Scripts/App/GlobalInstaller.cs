@@ -2,12 +2,12 @@ using Auth.Domain;
 using Auth.Infra;
 using UnityEngine.EventSystems;
 using Zenject;
-using InfinityZombies.Presentation;
-using InfinityZombies.Domain;
-using InfinityZombies.External;
+using App.Presentation;
+using App.Domain;
+using App.External;
 using Auth.External;
 
-namespace InfinityZombies
+namespace App
 {
     public class GlobalInstaller : MonoInstaller
     {

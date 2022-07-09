@@ -1,7 +1,7 @@
-using InfinityZombies.Domain;
+using App.Domain;
 using Zenject;
 
-namespace InfinityZombies.Presentation
+namespace App.Presentation
 {
     public class HomePageInstaller : MonoInstaller
     {
