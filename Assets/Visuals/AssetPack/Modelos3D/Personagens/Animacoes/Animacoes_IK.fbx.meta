@@ -659,7 +659,7 @@ ModelImporter:
     second: Character_RPG_Shoot
   - first:
       74: 7400024
-    second: Pose_Tiro
+    second: Player_Shooting
   - first:
       74: 7400026
     second: Character_Auto_Idle
@@ -719,7 +719,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Pose_Tiro
+      name: Player_Shooting
       takeName: Take 001
       internalID: 0
       firstFrame: 6
