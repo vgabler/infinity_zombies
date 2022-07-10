@@ -146,8 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _maxLifetime: 0.3
-  _speed: 80
+  _maxLifetime: 1
+  _speed: 40
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 64

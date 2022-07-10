@@ -20,6 +20,7 @@ namespace App.Presentation
         public InputField passwordField;
         public Button submitBtn;
         public GameObject loadingIndicator;
+        public GameObject failureScreen;
 
         bool FormValid => !string.IsNullOrEmpty(emailField.text) && !string.IsNullOrEmpty(passwordField.text) && !string.IsNullOrEmpty(nicknameField.text);
 
@@ -62,6 +63,7 @@ namespace App.Presentation
 
             if (result == null)
             {
+                failureScreen.SetActive(true);
                 return;
             }
 

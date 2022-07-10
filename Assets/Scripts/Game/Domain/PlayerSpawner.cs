@@ -47,6 +47,12 @@ namespace Game.Domain
                 return;
             }
 
+            if (Runner.TryGetPlayerObject(player, out var networkObject))
+            {
+                Debug.LogError("Tentando spawn 2 objetos!");
+                return;
+            }
+
             // Create a unique position for the player
             var spawnPosition = new Vector3(player.RawEncoded % Runner.Config.Simulation.DefaultPlayers * 3, 1, 0);
 

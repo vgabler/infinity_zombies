@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  attackCooldown: 0.2
+  attackCooldown: 0.3
   bullet:
     RawGuidValue: 990dc3e463d9aee40b7809ac9bc07de1
   gunTip: {fileID: 4157440687798314432}
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  startingMaxHealth: 5
+  startingMaxHealth: 7
   onChanged:
     m_PersistentCalls:
       m_Calls: []

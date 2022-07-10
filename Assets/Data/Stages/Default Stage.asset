@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5769cbf023958144ab1ad995d93bfd9c, type: 3}
   m_Name: Default Stage
   m_EditorClassIdentifier: 
-  waveTimeout: 40
-  defaultWaveDelay: 5
+  waveTimeout: 20
+  defaultWaveDelay: 3
   waves:
   - waveDelay: 0
-    defaultActionDelay: 2
+    defaultActionDelay: 1
     prefabs:
     - {fileID: 4687991490023401759, guid: 9e104560873e2b94983b375a4997a81d, type: 3}
     actions:
@@ -33,7 +33,7 @@ MonoBehaviour:
     - actionDelay: 0
       spawns: 000000000000000000000000000000000000000000000000
   - waveDelay: 0
-    defaultActionDelay: 2
+    defaultActionDelay: 1
     prefabs:
     - {fileID: 4687991490023401759, guid: 9e104560873e2b94983b375a4997a81d, type: 3}
     actions:
@@ -48,7 +48,7 @@ MonoBehaviour:
     - actionDelay: 0
       spawns: 00000000000000000000000000000000
   - waveDelay: 0
-    defaultActionDelay: 2
+    defaultActionDelay: 1
     prefabs:
     - {fileID: 4687991490023401759, guid: 9e104560873e2b94983b375a4997a81d, type: 3}
     actions:
