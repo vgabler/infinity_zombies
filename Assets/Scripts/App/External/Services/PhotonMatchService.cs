@@ -20,44 +20,41 @@ namespace App.External
         }
         public Task StartNewMatch()
         {
-            return StartGame(GameMode.Host);
+            var seed = Guid.NewGuid().ToString();
+            var sessionName = $"Game-{seed}";
+            return StartGame(sessionName);
         }
 
         public Task JoinExistingMatch()
         {
-            return StartGame(GameMode.Client);
+            return StartGame(null);
         }
 
-        async Task StartGame(GameMode mode)
+        async Task StartGame(string sessionName)
         {
             if (runner != null)
                 LeaveSession();
 
-            GameObject go = new GameObject("Session");
+            var go = new GameObject("Session");
             GameObject.DontDestroyOnLoad(go);
 
             runner = go.AddComponent<NetworkRunner>();
             runner.ProvideInput = true;
             runner.AddCallbacks(this);
 
-            await runner.StartGame(new StartGameArgs()
-            {
-                GameMode = mode,
-                SessionName = "TestRoom", //TODO pegar o nome da session
-            });
+            //Inicia no shared mode
+            await runner.StartGame(new StartGameArgs { GameMode = GameMode.AutoHostOrClient, SessionName = sessionName, });
 
             //TODO deveria esperar carregar a cena direitinho
             //Deveria passar a cena certa em vez de número
             runner.SetActiveScene(1);
 
             await Task.Delay(200);
-            //await sceneController.ChangePage(Constants.Pages.Game);
         }
 
         public Task RetryCurrentMatch()
         {
-            //TODO só passar as mesmas configurações
-            return StartGame(GameMode.AutoHostOrClient);
+            return StartGame(runner.SessionInfo.Name);
         }
 
         void LeaveSession()
@@ -90,7 +87,10 @@ namespace App.External
 
         public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) { }
 
-        public void OnSceneLoadDone(NetworkRunner runner) { }
+        public void OnSceneLoadDone(NetworkRunner runner)
+        {
+            //TODO chamar esse
+        }
 
         public void OnSceneLoadStart(NetworkRunner runner) { }
 
